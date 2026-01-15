@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-outfit), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-geist-mono), ui-serif, Georgia, serif;
+}
+
+:root {
+  --background: #fbfbfe;
+  --foreground: #111111;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f1f4;
+  --accent: #8b5cf6;
+  --card: #ffffff;
+  --border: #eef0f5;
+  --ring: rgba(99, 102, 241, 0.4);
+}
+
+[data-theme='dark'] {
+  --background: #0b0c10;
+  --foreground: #f0f0f5;
+  --primary: #818cf8;
+  --primary-foreground: #ffffff;
+  --secondary: #161b22;
+  --accent: #a78bfa;
+  --card: #12141a;
+  --border: #1f2937;
+  --ring: rgba(129, 140, 248, 0.3);
+}
+
+@layer base {
+  * {
+    @apply border-[var(--border)];
+  }
+
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)] font-sans transition-colors duration-300 antialiased;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl;
+  }
+
+  .glass-dark {
+    @apply bg-black/40 backdrop-blur-lg border border-white/10 shadow-2xl;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500;
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
