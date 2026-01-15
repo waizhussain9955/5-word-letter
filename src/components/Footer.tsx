@@ -51,8 +51,7 @@ export default function Footer() {
                                     { name: "Blog", href: "/blog" },
                                     { name: "About Us", href: "/about-us" },
                                     { name: "Contact", href: "/contact" },
-                                    { name: "Privacy Policy", href: "/privacy-policy" },
-                                    { name: "Admin Center", href: "/admin" }
+                                    { name: "Privacy Policy", href: "/privacy-policy" }
                                 ].map((item) => (
                                     <li key={item.name}>
                                         <Link href={item.href} className="text-gray-600 dark:text-gray-400 font-bold hover:text-indigo-600 transition-colors text-sm">
