@@ -30,12 +30,29 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   * {
     @apply border-[var(--border)];
   }
 
   body {
     @apply bg-[var(--background)] text-[var(--foreground)] font-sans transition-colors duration-300 antialiased;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[var(--background)];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 dark:bg-gray-800 rounded-full border-4 border-solid border-[var(--background)] hover:bg-indigo-500 transition-colors;
   }
 }
 
