@@ -1,9 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Clock, User, Share2 } from "lucide-react";
+import { ArrowLeft, Clock, User } from "lucide-react";
 
 const articles = [
     {
@@ -19,7 +18,7 @@ const articles = [
         date: "Jan 16, 2026",
         author: "Alex Rivera",
         readTime: "5 min read",
-        image: "blog_article_wordle_tips_1768520559734.png"
+        image: "/images/blog/blog_article_wordle_tips_1768520559734.png"
     },
     {
         slug: "linguistics-evolution",
@@ -34,7 +33,7 @@ const articles = [
         date: "Jan 14, 2026",
         author: "Dr. Sarah Chen",
         readTime: "8 min read",
-        image: "blog_article_linguistics_evolution_1768520574105.png"
+        image: "/images/blog/blog_article_linguistics_evolution_1768520574105.png"
     }
 ];
 
@@ -67,7 +66,7 @@ export default function BlogPage() {
                         >
                             <div className="relative aspect-[16/10] overflow-hidden">
                                 <img
-                                    src={`/.gemini/antigravity/brain/92b7291c-2f79-4672-906e-12e146a00f25/${post.image}`}
+                                    src={post.image}
                                     alt={post.title}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
