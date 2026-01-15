@@ -3,30 +3,27 @@
 @theme {
   --font-sans: var(--font-outfit), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-geist-mono), ui-serif, Georgia, serif;
+
+  --color-primary: #6366f1;
+  --color-primary-dark: #818cf8;
+  --color-bg-light: #ffffff;
+  --color-bg-dark: #09090b;
+  --color-card-light: #f9fafb;
+  --color-card-dark: #121215;
+  --color-border-light: #e5e7eb;
+  --color-border-dark: #27272a;
 }
 
 :root {
-  --background: #fbfbfe;
-  --foreground: #111111;
-  --primary: #6366f1;
-  --primary-foreground: #ffffff;
-  --secondary: #f0f1f4;
-  --accent: #8b5cf6;
-  --card: #ffffff;
-  --border: #eef0f5;
-  --ring: rgba(99, 102, 241, 0.4);
+  --background: #ffffff;
+  --foreground: #09090b;
+  --border: #e5e7eb;
 }
 
-[data-theme='dark'] {
-  --background: #0b0c10;
-  --foreground: #f0f0f5;
-  --primary: #818cf8;
-  --primary-foreground: #ffffff;
-  --secondary: #161b22;
-  --accent: #a78bfa;
-  --card: #12141a;
-  --border: #1f2937;
-  --ring: rgba(129, 140, 248, 0.3);
+.dark {
+  --background: #09090b;
+  --foreground: #f9fafb;
+  --border: #27272a;
 }
 
 @layer base {
@@ -39,52 +36,49 @@
   }
 
   body {
-    @apply bg-[var(--background)] text-[var(--foreground)] font-sans transition-colors duration-300 antialiased;
+    @apply bg-[var(--background)] text-[var(--foreground)] font-sans transition-colors duration-500 antialiased;
   }
 
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-[var(--background)];
+    @apply bg-transparent;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-200 dark:bg-gray-800 rounded-full border-4 border-solid border-[var(--background)] hover:bg-indigo-500 transition-colors;
+    @apply bg-gray-200 dark:bg-zinc-800 rounded-full border-2 border-solid border-transparent bg-clip-padding hover:bg-indigo-500 transition-colors;
   }
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl;
-  }
-
-  .glass-dark {
-    @apply bg-black/40 backdrop-blur-lg border border-white/10 shadow-2xl;
-  }
-
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500;
   }
 
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient 8s ease infinite;
+  .glass {
+    @apply bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl border border-white/20 dark:border-zinc-800/50 shadow-2xl;
+  }
+
+  .noise-bg {
+    position: relative;
+  }
+
+  .noise-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    filter: contrast(150%) brightness(100%);
   }
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }

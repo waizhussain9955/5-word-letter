@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Menu, X, BookOpen, ChevronDown, Sparkles } from "lucide-react";
+import { Search, Menu, X, BookOpen, ChevronDown, Sparkles, Moon, Sun } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/app/ThemeProvider";
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isListsOpen, setIsListsOpen] = useState(false);
+    const { theme, toggleTheme } = useTheme();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -22,7 +24,7 @@ export default function Navbar() {
     const navLinks = [
         { name: "Home", href: "/" },
         { name: "Blog", href: "/blog" },
-        { name: "About Us", href: "/about-us" },
+        { name: "About", href: "/about-us" },
         { name: "Contact", href: "/contact" },
     ];
 
@@ -39,20 +41,20 @@ export default function Navbar() {
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-4",
                 isScrolled
-                    ? "bg-white/80 dark:bg-black/80 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.05)] border-b border-gray-200/50 dark:border-gray-800/50 py-3"
+                    ? "bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-lg border-b border-gray-200/50 dark:border-zinc-800/50 py-3"
                     : "bg-transparent"
             )}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2.5 group">
+                <Link href="/" className="flex items-center gap-3 group">
                     <div className="relative">
-                        <div className="absolute -inset-1 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
-                        <div className="relative bg-indigo-600 p-2 rounded-xl group-hover:rotate-6 transition-transform duration-300 shadow-lg shadow-indigo-600/20">
+                        <div className="absolute -inset-1 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                        <div className="relative bg-indigo-600 p-2.5 rounded-xl group-hover:rotate-6 transition-transform duration-500 shadow-xl shadow-indigo-600/20">
                             <BookOpen className="w-5 h-5 text-white" />
                         </div>
                     </div>
-                    <span className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">Lumina</span>
+                    <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">Lumina</span>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -61,7 +63,7 @@ export default function Navbar() {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white transition-all rounded-xl hover:bg-gray-50 dark:hover:bg-gray-900"
+                            className="px-4 py-2 text-sm font-bold text-gray-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-white transition-all rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-900"
                         >
                             {link.name}
                         </Link>
@@ -73,7 +75,7 @@ export default function Navbar() {
                         onMouseEnter={() => setIsListsOpen(true)}
                         onMouseLeave={() => setIsListsOpen(false)}
                     >
-                        <button className="flex items-center gap-1 px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white transition-all rounded-xl hover:bg-gray-50 dark:hover:bg-gray-900">
+                        <button className="flex items-center gap-1 px-4 py-2 text-sm font-bold text-gray-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-white transition-all rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-900">
                             Word Lists
                             <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", isListsOpen && "rotate-180")} />
                         </button>
@@ -86,16 +88,16 @@ export default function Navbar() {
                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                     className="absolute top-full left-1/2 -translate-x-1/2 pt-4"
                                 >
-                                    <div className="bg-white dark:bg-black border border-gray-100 dark:border-gray-900 shadow-2xl rounded-3xl p-4 min-w-[240px]">
+                                    <div className="bg-white dark:bg-zinc-950 border border-gray-100 dark:border-zinc-800 shadow-2xl rounded-[2rem] p-4 min-w-[280px]">
                                         <div className="grid gap-1">
                                             {wordLists.map((item) => (
                                                 <Link
                                                     key={item.name}
                                                     href={item.href}
-                                                    className="flex flex-col gap-0.5 p-3 rounded-2xl hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group/item transition-colors"
+                                                    className="flex flex-col gap-0.5 p-3.5 rounded-2xl hover:bg-indigo-50 dark:hover:bg-indigo-950/30 group/item transition-all"
                                                 >
-                                                    <span className="text-sm font-bold text-gray-900 dark:text-white group-hover/item:text-indigo-600 transition-colors">{item.name}</span>
-                                                    <span className="text-xs text-gray-400">{item.desc}</span>
+                                                    <span className="text-sm font-black text-gray-900 dark:text-white group-hover/item:text-indigo-600 transition-colors uppercase tracking-tight">{item.name}</span>
+                                                    <span className="text-[10px] font-bold text-gray-400 dark:text-zinc-500 uppercase tracking-widest">{item.desc}</span>
                                                 </Link>
                                             ))}
                                         </div>
@@ -107,21 +109,39 @@ export default function Navbar() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-3">
-                    <button className="p-2.5 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-xl transition-colors">
+                <div className="flex items-center gap-2">
+                    {/* Theme Toggle */}
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2.5 text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-all hover:text-indigo-600 relative overflow-hidden group"
+                    >
+                        <AnimatePresence mode="wait">
+                            {theme === 'light' ? (
+                                <motion.div key="moon" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -20, opacity: 0 }} transition={{ duration: 0.2 }}>
+                                    <Moon className="w-5 h-5" />
+                                </motion.div>
+                            ) : (
+                                <motion.div key="sun" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -20, opacity: 0 }} transition={{ duration: 0.2 }}>
+                                    <Sun className="w-5 h-5" />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </button>
+
+                    <button className="hidden sm:flex p-2.5 text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-all hover:text-indigo-600">
                         <Search className="w-5 h-5" />
                     </button>
 
                     <Link
                         href="/list/5"
-                        className="hidden sm:flex items-center gap-2 bg-gray-900 dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-xl font-bold text-sm hover:scale-105 active:scale-95 transition-all shadow-xl shadow-gray-200 dark:shadow-none"
+                        className="hidden sm:flex items-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-black text-sm hover:bg-indigo-700 active:scale-95 transition-all shadow-xl shadow-indigo-600/20"
                     >
                         <Sparkles className="w-4 h-4" />
-                        Try Generator
+                        Generator
                     </Link>
 
                     <button
-                        className="md:hidden p-2.5 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-xl transition-colors"
+                        className="md:hidden p-2.5 text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-colors"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
                         {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -133,37 +153,40 @@ export default function Navbar() {
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="md:hidden overflow-hidden bg-white dark:bg-black border-t border-gray-100 dark:border-gray-900 mt-4 -mx-6 px-6 pb-8"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="md:hidden fixed inset-0 top-[72px] bg-white dark:bg-zinc-950 z-40 px-6 py-8 overflow-y-auto"
                     >
-                        <div className="flex flex-col gap-6 pt-8">
-                            <div className="grid gap-1">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-4 mb-2">Main Navigation</span>
+                        <div className="flex flex-col gap-8">
+                            <div className="grid gap-2">
+                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-2">Navigator</span>
                                 {navLinks.map((link) => (
                                     <Link
                                         key={link.name}
                                         href={link.href}
                                         onClick={() => setMobileMenuOpen(false)}
-                                        className="text-lg font-bold p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-900 dark:text-white"
+                                        className="text-2xl font-black p-4 rounded-[2rem] bg-gray-50 dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-100 dark:border-zinc-800"
                                     >
                                         {link.name}
                                     </Link>
                                 ))}
                             </div>
 
-                            <div className="grid gap-1">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-4 mb-2">Word Databases</span>
-                                <div className="grid grid-cols-2 gap-2">
+                            <div className="grid gap-2">
+                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-2">Word Databases</span>
+                                <div className="grid grid-cols-1 gap-3">
                                     {wordLists.map((link) => (
                                         <Link
                                             key={link.name}
                                             href={link.href}
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-900 text-sm font-bold text-gray-900 dark:text-white"
+                                            className="p-5 rounded-[2rem] bg-indigo-50/50 dark:bg-indigo-950/20 text-gray-900 dark:text-white border border-indigo-100 dark:border-indigo-900/50"
                                         >
-                                            {link.name}
+                                            <div className="flex flex-col">
+                                                <span className="text-lg font-black uppercase">{link.name}</span>
+                                                <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">{link.desc}</span>
+                                            </div>
                                         </Link>
                                     ))}
                                 </div>
