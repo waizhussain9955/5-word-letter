@@ -69,7 +69,7 @@ export default function ListClient({ length }: ListClientProps) {
                         <span className="font-heading font-black text-amber-500 uppercase tracking-[0.4em] text-xs">Aesthet_Specs</span>
                         <div className="h-px w-24 bg-amber-500/10" />
                     </div>
-                    <h1 className="text-7xl md:text-[140px] font-heading font-black tracking-tighter leading-[0.8] mb-8">
+                    <h1 className="text-6xl md:text-8xl font-heading font-black tracking-tighter leading-[0.9] mb-6">
                         ARCHIVE_{length}
                     </h1>
                     <div className="font-heading font-black text-xs text-gray-400 uppercase tracking-[0.5em] pl-2">

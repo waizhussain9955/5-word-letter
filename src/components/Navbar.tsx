@@ -43,54 +43,54 @@ export default function Navbar() {
                     className={cn(
                         "flex items-center justify-between transition-all duration-500",
                         isScrolled
-                            ? "w-[90%] lg:w-[1280px] px-8 py-4 glass-island rounded-2xl shadow-xl"
-                            : "w-full max-w-[1400px] mx-auto"
+                            ? "w-[95%] lg:w-[1320px] px-10 py-6 glass-island rounded-[2rem] shadow-2xl"
+                            : "w-full max-w-[1440px] mx-auto px-4"
                     )}
                 >
-                    {/* Brand Alignment */}
-                    <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-all shadow-lg shadow-amber-500/20">
-                            <ArrowUpRight className="w-6 h-6 text-black" />
+                    {/* Brand Alignment - Enlarged */}
+                    <Link href="/" className="flex items-center gap-5 group">
+                        <div className="w-14 h-14 bg-amber-500 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-all shadow-xl shadow-amber-500/30">
+                            <ArrowUpRight className="w-8 h-8 text-black" />
                         </div>
-                        <span className="font-heading font-black text-2xl tracking-tighter uppercase whitespace-nowrap">
+                        <span className="font-heading font-black text-3xl tracking-tighter uppercase whitespace-nowrap">
                             5-Letter Word.
                         </span>
                     </Link>
 
-                    {/* Nav Links Alignment */}
-                    <div className="hidden lg:flex items-center gap-12">
+                    {/* Nav Links - Larger */}
+                    <div className="hidden lg:flex items-center gap-16">
                         {["Blog", "About", "Contact"].map((l) => (
                             <Link
                                 key={l}
                                 href={`/${l.toLowerCase().replace(' ', '-')}`}
-                                className="font-heading font-black text-xs uppercase tracking-[0.2em] text-gray-500 hover:text-amber-500 transition-colors py-2"
+                                className="font-heading font-black text-sm uppercase tracking-[0.3em] text-gray-600 dark:text-gray-400 hover:text-amber-500 transition-all py-3"
                             >
                                 {l}
                             </Link>
                         ))}
                     </div>
 
-                    {/* Actions Alignment */}
-                    <div className="flex items-center gap-6">
+                    {/* Actions - Larger buttons */}
+                    <div className="flex items-center gap-8">
                         <button
                             onClick={() => setIsSearchOpen(true)}
-                            className="p-2 text-gray-400 hover:text-amber-500 transition-colors"
+                            className="p-3 text-gray-500 hover:text-amber-500 transition-colors"
                         >
-                            <Search className="w-5 h-5 font-bold" />
+                            <Search className="w-6 h-6 font-black" />
                         </button>
 
                         <button
                             onClick={toggleTheme}
-                            className="p-2 text-gray-400 hover:text-amber-500 transition-colors"
+                            className="p-3 text-gray-500 hover:text-amber-500 transition-colors"
                         >
-                            {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+                            {theme === 'light' ? <Moon className="w-6 h-6" /> : <Sun className="w-6 h-6" />}
                         </button>
 
                         <Link
                             href="/list/5"
-                            className="hidden sm:flex items-center gap-3 bg-black dark:bg-amber-500 text-white dark:text-black px-8 py-4 rounded-xl font-heading font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-all shadow-xl shadow-black/5 dark:shadow-amber-500/10"
+                            className="hidden md:flex items-center gap-4 bg-black dark:bg-amber-500 text-white dark:text-black px-10 py-5 rounded-2xl font-heading font-black text-xs uppercase tracking-[0.2em] hover:scale-110 transition-all shadow-2xl shadow-black/10 dark:shadow-amber-500/20"
                         >
-                            DICTIONARY
+                            OPEN DICTIONARY
                         </Link>
 
                         <button

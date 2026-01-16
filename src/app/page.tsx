@@ -27,7 +27,7 @@ export default function Home() {
               <div className="h-px w-16 bg-amber-500" />
               <span className="font-heading font-black text-amber-500 tracking-[0.5em] text-[11px] uppercase">Linguistic Architecture</span>
             </div>
-            <h1 className="text-7xl md:text-[140px] font-heading font-black leading-[0.8] tracking-tighter mb-16 uppercase">
+            <h1 className="text-6xl md:text-8xl font-heading font-black leading-[0.9] tracking-tighter mb-12 uppercase">
               5-LETTER <br />
               <span className="text-luxury">WORD.</span>
             </h1>
