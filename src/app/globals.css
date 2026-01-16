@@ -3,25 +3,38 @@
 @theme {
   --font-sans: var(--font-outfit), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-geist-mono), ui-serif, Georgia, serif;
-
-  --color-primary: #6366f1;
-  --color-primary-dark: #818cf8;
 }
 
 :root {
-  --background: #f4f4f5;
-  --foreground: #09090b;
+  /* Coastal/Emerald Premium Palette */
+  --background: #f0fdf4;
+  /* Very light mint/emerald tint */
+  --foreground: #064e3b;
+  /* Deep emerald green */
   --card: #ffffff;
-  --border: #e4e4e7;
-  --secondary-bg: #ffffff;
+  --border: #d1fae5;
+  --primary: #10b981;
+  /* Emerald-500 */
+  --primary-glow: rgba(16, 185, 129, 0.2);
+  --accent: #3b82f6;
+  /* Blue-500 */
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #f9fafb;
-  --card: #121215;
-  --border: #27272a;
-  --secondary-bg: #18181b;
+  /* Deep Slate/Ocean Dark Palette */
+  --background: #020617;
+  /* Slate-950 */
+  --foreground: #f1f5f9;
+  /* Slate-100 */
+  --card: #0f172a;
+  /* Slate-900 */
+  --border: #1e293b;
+  /* Slate-800 */
+  --primary: #34d399;
+  /* Emerald-400 */
+  --primary-glow: rgba(52, 211, 153, 0.15);
+  --accent: #60a5fa;
+  /* Blue-400 */
 }
 
 @layer base {
@@ -39,7 +52,7 @@
     @apply font-sans transition-colors duration-500 antialiased;
   }
 
-  /* Custom Scrollbar */
+  /* Custom Scrollbar - Emerald Styled */
   ::-webkit-scrollbar {
     width: 6px;
   }
@@ -49,57 +62,56 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-zinc-300 dark:bg-zinc-800 rounded-full hover:bg-indigo-500 transition-colors;
+    background-color: var(--primary);
+    border-radius: 9999px;
+    opacity: 0.5;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500;
   }
 
   .glass {
-    @apply bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl border border-white/20 dark:border-zinc-800/50 shadow-2xl;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+  }
+
+  .dark .glass {
+    background-color: rgba(15, 23, 42, 0.7);
   }
 
   .premium-card {
     background-color: var(--card);
     border: 1px solid var(--border);
     border-radius: 2.5rem;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 10px 40px var(--primary-glow);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .dark .premium-card {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-  }
-
   .premium-card:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px var(--primary-glow);
+    border-color: var(--primary);
   }
 
-  .dark .premium-card:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  }
-
-  .noise-bg {
-    position: relative;
-  }
-
-  .noise-bg::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    opacity: 0.04;
-    pointer-events: none;
-    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    filter: contrast(120%) brightness(120%);
+  /* Unique Mesh Background for "Wow" Factor */
+  .mesh-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-color: var(--background);
+    background-image:
+      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.05) 0px, transparent 50%);
   }
 }
 
-/* Global transitions */
 body * {
-  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
 }

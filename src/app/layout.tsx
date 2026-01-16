@@ -16,9 +16,9 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Lumina | Professional Word Finder & Dictionary",
-  description: "Advanced English word discovery tool. Browse words by length, filter with patterns, and explore curated vocabulary lists with a premium UI.",
-  keywords: "5 letter words, word finder, dictionary, vocabulary, search words, crossword help",
+  title: "5-Letter Word | Ultimate Word Discovery Engine",
+  description: "Advanced dictionary and pattern-matching engine for 5-letter words and beyond. Professional linguistic tool with ultra-fast search and filtering.",
+  keywords: "5 letter words, word finder, dictionary, 5-letter-word, linguistics, wordle help",
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${outfit.variable} ${montserrat.variable} font-sans noise-bg`}>
+      <body className={`${outfit.className} ${montserrat.variable} antialiased noise-bg mesh-bg`}>
         <ThemeProvider>
           <Navbar />
           <main className="min-h-screen">

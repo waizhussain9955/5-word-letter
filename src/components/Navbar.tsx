@@ -1,22 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Menu, X, BookOpen, ChevronDown, Sparkles, Moon, Sun } from "lucide-react";
+import { Search, Menu, X, BookOpen, ChevronDown, Sparkles, Moon, Sun, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/app/ThemeProvider";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isListsOpen, setIsListsOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
     const { theme, toggleTheme } = useTheme();
+    const router = useRouter();
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
-        };
+        const handleScroll = () => setIsScrolled(window.scrollY > 20);
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -36,165 +38,139 @@ export default function Navbar() {
         { name: "7 Letters", href: "/list/7", desc: "Scholar" },
     ];
 
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!searchQuery) return;
+        // Basic intelligence: if it's a number, go to that list, otherwise look for length
+        const len = searchQuery.length;
+        if (len >= 3 && len <= 7) {
+            router.push(`/list/${len}?search=${searchQuery}`);
+        } else {
+            router.push(`/list/5?search=${searchQuery}`);
+        }
+        setIsSearchOpen(false);
+    };
+
     return (
-        <nav
-            className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-4",
-                isScrolled
-                    ? "bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-lg border-b border-gray-200/50 dark:border-zinc-800/50 py-3"
-                    : "bg-transparent"
-            )}
-        >
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
-                {/* Logo */}
-                <Link href="/" className="flex items-center gap-3 group">
-                    <div className="relative">
-                        <div className="absolute -inset-1 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-                        <div className="relative bg-indigo-600 p-2.5 rounded-xl group-hover:rotate-6 transition-transform duration-500 shadow-xl shadow-indigo-600/20">
-                            <BookOpen className="w-5 h-5 text-white" />
+        <>
+            <nav
+                className={cn(
+                    "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-4",
+                    isScrolled
+                        ? "bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-2xl border-b border-emerald-100 dark:border-emerald-900/20 py-3"
+                        : "bg-transparent"
+                )}
+            >
+                <div className="max-w-7xl mx-auto flex items-center justify-between">
+                    {/* Logo - Updated Name */}
+                    <Link href="/" className="flex items-center gap-3 group">
+                        <div className="relative">
+                            <div className="absolute -inset-1 bg-gradient-to-tr from-emerald-500 to-blue-500 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                            <div className="relative bg-emerald-600 p-2.5 rounded-xl group-hover:rotate-6 transition-transform duration-500 shadow-xl shadow-emerald-600/20">
+                                <Sparkles className="w-5 h-5 text-white" />
+                            </div>
                         </div>
-                    </div>
-                    <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">Lumina</span>
-                </Link>
-
-                {/* Desktop Nav */}
-                <div className="hidden md:flex items-center gap-1">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.name}
-                            href={link.href}
-                            className="px-4 py-2 text-sm font-bold text-gray-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-white transition-all rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
-
-                    {/* Megamenu Trigger */}
-                    <div
-                        className="relative group"
-                        onMouseEnter={() => setIsListsOpen(true)}
-                        onMouseLeave={() => setIsListsOpen(false)}
-                    >
-                        <button className="flex items-center gap-1 px-4 py-2 text-sm font-bold text-gray-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-white transition-all rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-900">
-                            Word Lists
-                            <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", isListsOpen && "rotate-180")} />
-                        </button>
-
-                        <AnimatePresence>
-                            {isListsOpen && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    className="absolute top-full left-1/2 -translate-x-1/2 pt-4"
-                                >
-                                    <div className="bg-white dark:bg-zinc-950 border border-gray-100 dark:border-zinc-800 shadow-2xl rounded-[2rem] p-4 min-w-[280px]">
-                                        <div className="grid gap-1">
-                                            {wordLists.map((item) => (
-                                                <Link
-                                                    key={item.name}
-                                                    href={item.href}
-                                                    className="flex flex-col gap-0.5 p-3.5 rounded-2xl hover:bg-indigo-50 dark:hover:bg-indigo-950/30 group/item transition-all"
-                                                >
-                                                    <span className="text-sm font-black text-gray-900 dark:text-white group-hover/item:text-indigo-600 transition-colors uppercase tracking-tight">{item.name}</span>
-                                                    <span className="text-[10px] font-bold text-gray-400 dark:text-zinc-500 uppercase tracking-widest">{item.desc}</span>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2">
-                    {/* Theme Toggle */}
-                    <button
-                        onClick={toggleTheme}
-                        className="p-2.5 text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-all hover:text-indigo-600 relative overflow-hidden group"
-                    >
-                        <AnimatePresence mode="wait">
-                            {theme === 'light' ? (
-                                <motion.div key="moon" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -20, opacity: 0 }} transition={{ duration: 0.2 }}>
-                                    <Moon className="w-5 h-5" />
-                                </motion.div>
-                            ) : (
-                                <motion.div key="sun" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -20, opacity: 0 }} transition={{ duration: 0.2 }}>
-                                    <Sun className="w-5 h-5" />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </button>
-
-                    <button className="hidden sm:flex p-2.5 text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-all hover:text-indigo-600">
-                        <Search className="w-5 h-5" />
-                    </button>
-
-                    <Link
-                        href="/list/5"
-                        className="hidden sm:flex items-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-black text-sm hover:bg-indigo-700 active:scale-95 transition-all shadow-xl shadow-indigo-600/20"
-                    >
-                        <Sparkles className="w-4 h-4" />
-                        Generator
+                        <span className="text-2xl font-black tracking-tighter text-emerald-900 dark:text-emerald-50">5-Letter Word</span>
                     </Link>
 
-                    <button
-                        className="md:hidden p-2.5 text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-colors"
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    >
-                        {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                    </button>
+                    {/* Desktop Nav */}
+                    <div className="hidden md:flex items-center gap-1">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className="px-5 py-2 text-sm font-black text-emerald-800/60 dark:text-emerald-100/40 hover:text-emerald-600 dark:hover:text-emerald-300 transition-all rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/30 uppercase tracking-widest"
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => setIsSearchOpen(true)}
+                            className="p-2.5 text-emerald-800 dark:text-emerald-100 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-xl transition-all"
+                        >
+                            <Search className="w-5 h-5 font-bold" />
+                        </button>
+
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2.5 text-emerald-800 dark:text-emerald-100 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-xl transition-all"
+                        >
+                            {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+                        </button>
+
+                        <button
+                            className="md:hidden p-2.5 text-emerald-800 dark:text-emerald-100"
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        >
+                            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </nav>
+
+            {/* Search Overlay */}
+            <AnimatePresence>
+                {isSearchOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-emerald-950/90 backdrop-blur-2xl flex items-center justify-center p-6"
+                    >
+                        <button
+                            onClick={() => setIsSearchOpen(false)}
+                            className="absolute top-10 right-10 text-white hover:rotate-90 transition-transform"
+                        >
+                            <X className="w-10 h-10" />
+                        </button>
+
+                        <div className="w-full max-w-3xl text-center">
+                            <h2 className="text-4xl font-black text-white mb-12 tracking-tighter">Global Lexicon Search.</h2>
+                            <form onSubmit={handleSearch} className="relative">
+                                <input
+                                    autoFocus
+                                    type="text"
+                                    placeholder="Type any word..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full bg-transparent border-b-8 border-emerald-500/30 focus:border-emerald-500 py-6 text-5xl md:text-7xl font-black text-white outline-none placeholder:text-emerald-500/20 transition-all text-center"
+                                />
+                                <button type="submit" className="mt-12 group flex items-center gap-4 mx-auto bg-emerald-500 text-emerald-950 px-10 py-5 rounded-[2rem] font-black text-xl hover:bg-white transition-all">
+                                    Initialize Extraction
+                                    <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                                </button>
+                            </form>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Mobile Menu */}
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="md:hidden fixed inset-0 top-[72px] bg-white dark:bg-zinc-950 z-40 px-6 py-8 overflow-y-auto"
+                        initial={{ opacity: 0, x: 200 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 100 }}
+                        className="fixed inset-0 z-40 bg-emerald-50 dark:bg-slate-950 flex flex-col p-10 pt-32"
                     >
-                        <div className="flex flex-col gap-8">
-                            <div className="grid gap-2">
-                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-2">Navigator</span>
-                                {navLinks.map((link) => (
-                                    <Link
-                                        key={link.name}
-                                        href={link.href}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="text-2xl font-black p-4 rounded-[2rem] bg-gray-50 dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-100 dark:border-zinc-800"
-                                    >
-                                        {link.name}
-                                    </Link>
-                                ))}
-                            </div>
-
-                            <div className="grid gap-2">
-                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-2">Word Databases</span>
-                                <div className="grid grid-cols-1 gap-3">
-                                    {wordLists.map((link) => (
-                                        <Link
-                                            key={link.name}
-                                            href={link.href}
-                                            onClick={() => setMobileMenuOpen(false)}
-                                            className="p-5 rounded-[2rem] bg-indigo-50/50 dark:bg-indigo-950/20 text-gray-900 dark:text-white border border-indigo-100 dark:border-indigo-900/50"
-                                        >
-                                            <div className="flex flex-col">
-                                                <span className="text-lg font-black uppercase">{link.name}</span>
-                                                <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">{link.desc}</span>
-                                            </div>
-                                        </Link>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-5xl font-black text-emerald-950 dark:text-white py-4 border-b border-emerald-100 dark:border-emerald-900"
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
                     </motion.div>
                 )}
             </AnimatePresence>
-        </nav>
+        </>
     );
 }

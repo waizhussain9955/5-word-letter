@@ -1,29 +1,27 @@
 import Link from "next/link";
-import { BookOpen, Twitter, Github, Instagram, ArrowRight } from "lucide-react";
+import { Sparkles, Twitter, Github, Instagram, ArrowRight } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="relative bg-white dark:bg-[#0b0c10] pt-24 pb-12 px-6 border-t border-gray-100 dark:border-gray-900 overflow-hidden">
-            {/* Decorative element */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/5 blur-[120px] rounded-full -mr-48 -mt-48" />
+        <footer className="relative bg-emerald-50 dark:bg-[#020617] pt-32 pb-16 px-6 border-t border-emerald-100 dark:border-emerald-900 overflow-hidden">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -mr-64 -mt-64" />
 
             <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
-                    <div className="lg:col-span-5 flex flex-col gap-6">
-                        <Link href="/" className="flex items-center gap-2.5">
-                            <div className="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-600/20">
-                                <BookOpen className="w-5 h-5 text-white" />
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 mb-24">
+                    <div className="lg:col-span-5 space-y-8">
+                        <Link href="/" className="flex items-center gap-4 group">
+                            <div className="bg-emerald-600 p-3 rounded-2xl shadow-2xl shadow-emerald-500/20 group-hover:rotate-12 transition-transform">
+                                <Sparkles className="w-6 h-6 text-white" />
                             </div>
-                            <span className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">Lumina</span>
+                            <span className="text-3xl font-black tracking-tighter text-emerald-950 dark:text-white">5-Letter Word</span>
                         </Link>
-                        <p className="text-gray-500 dark:text-gray-400 max-w-sm leading-relaxed">
-                            Lumina is the world's most advanced word discovery platform.
-                            Built for professionals, writers, and language enthusiasts who
-                            demand speed, accuracy, and premium design.
+                        <p className="text-emerald-800/60 dark:text-emerald-100/40 font-medium text-lg leading-relaxed max-w-sm">
+                            The definitive linguistic resource for writers, gamers, and scholars.
+                            Crafting precision since 2026.
                         </p>
-                        <div className="flex items-center gap-4">
+                        <div className="flex gap-4">
                             {[Twitter, Github, Instagram].map((Icon, i) => (
-                                <Link key={i} href="#" className="p-2.5 rounded-xl border border-gray-100 dark:border-gray-800 text-gray-500 hover:text-indigo-600 hover:border-indigo-600 transition-all">
+                                <Link key={i} href="#" className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-800 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all shadow-xl shadow-emerald-500/5">
                                     <Icon className="w-5 h-5" />
                                 </Link>
                             ))}
@@ -31,30 +29,30 @@ export default function Footer() {
                     </div>
 
                     <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-12">
-                        <div>
-                            <h4 className="font-black text-xs uppercase tracking-widest text-gray-400 mb-6">Databases</h4>
+                        <div className="space-y-8">
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-600/50">Core Databases</h4>
                             <ul className="space-y-4">
                                 {[3, 4, 5, 6, 7].map((num) => (
                                     <li key={num}>
-                                        <Link href={`/list/${num}`} className="text-gray-600 dark:text-gray-400 font-bold hover:text-indigo-600 transition-colors text-sm">
-                                            {num} Letter Words
+                                        <Link href={`/list/${num}`} className="text-emerald-950 dark:text-emerald-100 font-black hover:text-emerald-600 transition-colors uppercase text-xs tracking-widest">
+                                            {num} Letters
                                         </Link>
                                     </li>
                                 ))}
                             </ul>
                         </div>
 
-                        <div>
-                            <h4 className="font-black text-xs uppercase tracking-widest text-gray-400 mb-6">Platform</h4>
+                        <div className="space-y-8">
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-600/50">Platform</h4>
                             <ul className="space-y-4">
                                 {[
-                                    { name: "Blog", href: "/blog" },
+                                    { name: "The Journal", href: "/blog" },
                                     { name: "About Us", href: "/about-us" },
-                                    { name: "Contact", href: "/contact" },
-                                    { name: "Privacy Policy", href: "/privacy-policy" }
+                                    { name: "Legal / Privacy", href: "/privacy-policy" },
+                                    { name: "Contact Hub", href: "/contact" }
                                 ].map((item) => (
                                     <li key={item.name}>
-                                        <Link href={item.href} className="text-gray-600 dark:text-gray-400 font-bold hover:text-indigo-600 transition-colors text-sm">
+                                        <Link href={item.href} className="text-emerald-950 dark:text-emerald-100 font-black hover:text-emerald-600 transition-colors uppercase text-xs tracking-widest">
                                             {item.name}
                                         </Link>
                                     </li>
@@ -62,16 +60,16 @@ export default function Footer() {
                             </ul>
                         </div>
 
-                        <div className="col-span-2 md:col-span-1">
-                            <h4 className="font-black text-xs uppercase tracking-widest text-gray-400 mb-6">Newsletter</h4>
-                            <p className="text-xs text-gray-500 mb-4 font-medium leading-relaxed">Get curated word lists and linguistic insights weekly.</p>
+                        <div className="col-span-2 md:col-span-1 space-y-8">
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-600/50">Intelligence</h4>
+                            <p className="text-xs font-bold text-emerald-800/40 dark:text-emerald-100/20 leading-relaxed uppercase">Subscribe for high-entropy word drops.</p>
                             <div className="relative group">
                                 <input
                                     type="email"
-                                    placeholder="your@email.com"
-                                    className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl px-4 py-3 text-xs outline-none focus:ring-2 ring-indigo-500 transition-all"
+                                    placeholder="HEX@PROTOCOL.COM"
+                                    className="w-full bg-white dark:bg-slate-900 border-2 border-emerald-100 dark:border-emerald-800 rounded-2xl px-6 py-4 text-[10px] font-black outline-none focus:border-emerald-500 transition-all uppercase tracking-widest"
                                 />
-                                <button className="absolute right-1 top-1 bottom-1 px-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                                <button className="absolute right-2 top-2 bottom-2 px-4 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors">
                                     <ArrowRight className="w-4 h-4" />
                                 </button>
                             </div>
@@ -79,14 +77,13 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-gray-100 dark:border-gray-900 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                        &copy; {new Date().getFullYear()} Lumina Platforms Inc. All Rights Reserved.
+                <div className="pt-12 border-t border-emerald-100 dark:border-emerald-900 flex flex-col md:flex-row justify-between items-center gap-8">
+                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600/30">
+                        © 2026 5-LETTER WORD SYSTEMS • ALL RIGHTS RESERVED
                     </p>
-                    <div className="flex items-center gap-6">
-                        <Link href="#" className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-indigo-600">Terms</Link>
-                        <Link href="/privacy-policy" className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-indigo-600">Privacy</Link>
-                        <Link href="#" className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-indigo-600">Sitemap</Link>
+                    <div className="flex gap-10">
+                        <span className="text-[10px] font-black text-emerald-600/40 uppercase tracking-widest">EN-US</span>
+                        <span className="text-[10px] font-black text-emerald-600/40 uppercase tracking-widest">V2.4.0</span>
                     </div>
                 </div>
             </div>
