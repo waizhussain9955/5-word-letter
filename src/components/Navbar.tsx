@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Menu, X, ArrowUpRight, Sun, Moon, Sparkles } from "lucide-react";
+import { Search, Menu, X, ArrowUpRight, Sun, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,7 +17,7 @@ export default function Navbar() {
     const router = useRouter();
 
     useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 20);
+        const handleScroll = () => setIsScrolled(window.scrollY > 10);
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -33,96 +33,103 @@ export default function Navbar() {
         <>
             <nav
                 className={cn(
-                    "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-700 w-[95%] lg:w-[1200px]",
+                    "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
                     isScrolled
-                        ? "px-6 py-3 glass-island rounded-full"
-                        : "px-6 py-6 border-b border-[var(--border)]"
+                        ? "py-4 flex justify-center"
+                        : "py-8 px-6 lg:px-24"
                 )}
             >
-                <div className="flex items-center justify-between">
-                    {/* Brand */}
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <div className="w-8 h-8 bg-amber-500 rounded-none flex items-center justify-center group-hover:rotate-90 transition-transform">
-                            <ArrowUpRight className="w-5 h-5 text-black" />
+                <div
+                    className={cn(
+                        "flex items-center justify-between transition-all duration-500",
+                        isScrolled
+                            ? "w-[90%] lg:w-[1280px] px-8 py-4 glass-island rounded-2xl shadow-xl"
+                            : "w-full max-w-[1400px] mx-auto"
+                    )}
+                >
+                    {/* Brand Alignment */}
+                    <Link href="/" className="flex items-center gap-3 group">
+                        <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-all shadow-lg shadow-amber-500/20">
+                            <ArrowUpRight className="w-6 h-6 text-black" />
                         </div>
-                        <span className="font-heading font-black text-xl tracking-tighter uppercase whitespace-nowrap">
+                        <span className="font-heading font-black text-2xl tracking-tighter uppercase whitespace-nowrap">
                             5-Letter Word.
                         </span>
                     </Link>
 
-                    {/* Nav Links */}
-                    <div className="hidden lg:flex items-center gap-10">
+                    {/* Nav Links Alignment */}
+                    <div className="hidden lg:flex items-center gap-12">
                         {["Blog", "About", "Contact"].map((l) => (
                             <Link
                                 key={l}
                                 href={`/${l.toLowerCase().replace(' ', '-')}`}
-                                className="font-heading font-black text-xs uppercase tracking-widest text-gray-500 hover:text-amber-500 transition-colors"
+                                className="font-heading font-black text-xs uppercase tracking-[0.2em] text-gray-500 hover:text-amber-500 transition-colors py-2"
                             >
                                 {l}
                             </Link>
                         ))}
                     </div>
 
-                    {/* Actions */}
-                    <div className="flex items-center gap-4">
+                    {/* Actions Alignment */}
+                    <div className="flex items-center gap-6">
                         <button
                             onClick={() => setIsSearchOpen(true)}
-                            className="p-1 hovered:text-amber-500 transition-colors"
+                            className="p-2 text-gray-400 hover:text-amber-500 transition-colors"
                         >
-                            <Search className="w-5 h-5" />
+                            <Search className="w-5 h-5 font-bold" />
                         </button>
 
                         <button
                             onClick={toggleTheme}
-                            className="p-1 hover:text-amber-500 transition-colors"
+                            className="p-2 text-gray-400 hover:text-amber-500 transition-colors"
                         >
                             {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
                         </button>
 
                         <Link
                             href="/list/5"
-                            className="hidden sm:flex items-center gap-3 bg-black dark:bg-white text-white dark:text-black px-6 py-3 font-heading font-black text-[10px] uppercase tracking-widest hover:bg-amber-500 hover:text-black transition-all"
+                            className="hidden sm:flex items-center gap-3 bg-black dark:bg-amber-500 text-white dark:text-black px-8 py-4 rounded-xl font-heading font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-all shadow-xl shadow-black/5 dark:shadow-amber-500/10"
                         >
                             DICTIONARY
                         </Link>
 
                         <button
-                            className="lg:hidden p-1"
+                            className="lg:hidden p-2 text-gray-500"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         >
-                            <Menu className="w-6 h-6" />
+                            {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
                         </button>
                     </div>
                 </div>
             </nav>
 
-            {/* Unique Search Experience */}
+            {/* Search Overlay Alignment */}
             <AnimatePresence>
                 {isSearchOpen && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] bg-white dark:bg-black flex items-center justify-center p-6"
+                        className="fixed inset-0 z-[100] bg-white dark:bg-black flex items-center justify-center p-8 md:p-20"
                     >
                         <button onClick={() => setIsSearchOpen(false)} className="absolute top-12 right-12 hover:rotate-90 transition-transform">
                             <X className="w-12 h-12" />
                         </button>
 
-                        <div className="w-full max-w-5xl">
+                        <div className="w-full max-w-6xl">
                             <form onSubmit={handleSearch}>
-                                <div className="text-[10px] font-black tracking-[0.6em] text-amber-500 mb-8 uppercase">Initialize Discovery</div>
+                                <div className="text-[12px] font-black tracking-[0.6em] text-amber-500 mb-10 uppercase">System Intelligence_</div>
                                 <input
                                     autoFocus
                                     type="text"
-                                    placeholder="TYPE WORD_"
+                                    placeholder="SEARCH ARCHIVE..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value.toUpperCase())}
-                                    className="w-full bg-transparent border-none text-7xl md:text-[140px] font-heading font-black text-[var(--foreground)] outline-none placeholder:opacity-10 tracking-tighter"
+                                    className="w-full bg-transparent border-none text-6xl md:text-[120px] font-heading font-black text-[var(--foreground)] outline-none placeholder:text-gray-100 dark:placeholder:text-zinc-900 tracking-tighter"
                                 />
-                                <div className="flex items-center gap-8 mt-12">
-                                    <button className="font-heading font-black text-2xl border-b-4 border-amber-500 hover:gap-12 transition-all flex items-center gap-6">
-                                        START SEARCH <ArrowUpRight className="w-8 h-8 text-amber-500" />
+                                <div className="mt-16 flex items-center gap-10">
+                                    <button className="font-heading font-black text-3xl border-b-6 border-amber-500 flex items-center gap-8 hover:gap-12 transition-all">
+                                        START RETRIEVAL <ArrowUpRight className="w-10 h-10 text-amber-500" />
                                     </button>
                                 </div>
                             </form>
@@ -131,30 +138,25 @@ export default function Navbar() {
                 )}
             </AnimatePresence>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu Alignment */}
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 1.1 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.1 }}
-                        className="fixed inset-0 z-[60] bg-white dark:bg-black pt-40 px-10"
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 100 }}
+                        className="fixed inset-0 z-[60] bg-white dark:bg-black p-12 pt-40 flex flex-col gap-10"
                     >
-                        <button onClick={() => setMobileMenuOpen(false)} className="absolute top-10 right-10">
-                            <X className="w-10 h-10" />
-                        </button>
-                        <div className="flex flex-col gap-12">
-                            {["Home", "Blog", "About", "Contact", "Dictionary"].map((l) => (
-                                <Link
-                                    key={l}
-                                    href={l === 'Home' ? '/' : l === 'Dictionary' ? '/list/5' : `/${l.toLowerCase()}`}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="text-6xl font-heading font-black tracking-tighter uppercase text-gray-200 hover:text-amber-500 transition-colors"
-                                >
-                                    {l}
-                                </Link>
-                            ))}
-                        </div>
+                        {["Home", "Blog", "About", "Contact", "Dictionary"].map((l) => (
+                            <Link
+                                key={l}
+                                href={l === 'Home' ? '/' : l === 'Dictionary' ? '/list/5' : `/${l.toLowerCase()}`}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-5xl font-heading font-black tracking-tighter uppercase text-zinc-200 dark:text-zinc-800 hover:text-amber-500 transition-colors"
+                            >
+                                {l}
+                            </Link>
+                        ))}
                     </motion.div>
                 )}
             </AnimatePresence>
