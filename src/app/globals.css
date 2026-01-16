@@ -1,40 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-outfit), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-geist-mono), ui-serif, Georgia, serif;
+  --font-sans: 'Inter', var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Syne', sans-serif;
 }
 
 :root {
-  /* Coastal/Emerald Premium Palette */
-  --background: #f0fdf4;
-  /* Very light mint/emerald tint */
-  --foreground: #064e3b;
-  /* Deep emerald green */
-  --card: #ffffff;
-  --border: #d1fae5;
-  --primary: #10b981;
-  /* Emerald-500 */
-  --primary-glow: rgba(16, 185, 129, 0.2);
-  --accent: #3b82f6;
-  /* Blue-500 */
+  --background: #ffffff;
+  --foreground: #000000;
+  --primary: #f59e0b;
+  --accent: #10b981;
+  --card: #f8fafc;
+  --border: #e2e8f0;
+  --glow: rgba(245, 158, 11, 0.1);
 }
 
 .dark {
-  /* Deep Slate/Ocean Dark Palette */
-  --background: #020617;
-  /* Slate-950 */
-  --foreground: #f1f5f9;
-  /* Slate-100 */
-  --card: #0f172a;
-  /* Slate-900 */
-  --border: #1e293b;
-  /* Slate-800 */
-  --primary: #34d399;
-  /* Emerald-400 */
-  --primary-glow: rgba(52, 211, 153, 0.15);
-  --accent: #60a5fa;
-  /* Blue-400 */
+  --background: #020203;
+  --foreground: #ffffff;
+  --primary: #fbbf24;
+  --accent: #34d399;
+  --card: #0a0a0c;
+  --border: #1a1a1c;
+  --glow: rgba(251, 191, 36, 0.1);
 }
 
 @layer base {
@@ -42,19 +30,16 @@
     scroll-behavior: smooth;
   }
 
-  * {
-    border-color: var(--border);
-  }
-
   body {
     background-color: var(--background);
     color: var(--foreground);
-    @apply font-sans transition-colors duration-500 antialiased;
+    @apply transition-colors duration-700 antialiased selection:bg-amber-500 selection:text-black;
+    overflow-x: hidden;
   }
 
-  /* Custom Scrollbar - Emerald Styled */
+  /* Custom Scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
 
   ::-webkit-scrollbar-track {
@@ -62,56 +47,64 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--primary);
-    border-radius: 9999px;
-    opacity: 0.5;
+    background: var(--primary);
+    border-radius: 10px;
   }
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500;
-  }
-
-  .glass {
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
+  .luxury-card {
+    background: var(--card);
     border: 1px solid var(--border);
+    border-radius: 0px;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  .dark .glass {
-    background-color: rgba(15, 23, 42, 0.7);
-  }
-
-  .premium-card {
-    background-color: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 2.5rem;
-    box-shadow: 0 10px 40px var(--primary-glow);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .premium-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 60px var(--primary-glow);
+  .luxury-card:hover {
     border-color: var(--primary);
+    box-shadow: 0 40px 80px -20px var(--glow);
+    transform: translateY(-8px);
   }
 
-  /* Unique Mesh Background for "Wow" Factor */
-  .mesh-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    background-color: var(--background);
-    background-image:
-      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.05) 0px, transparent 50%);
+  .text-luxury {
+    background-image: linear-gradient(to top right, #fde68a, #f59e0b, #fde68a);
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: gradient-flow 6s linear infinite;
   }
-}
 
-body * {
-  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+  .glass-island {
+    backdrop-filter: blur(32px);
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .glass-island {
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  @keyframes gradient-flow {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .geometric-bg {
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+    opacity: 0.1;
+  }
 }

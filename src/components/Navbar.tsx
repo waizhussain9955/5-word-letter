@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Menu, X, BookOpen, ChevronDown, Sparkles, Moon, Sun, ArrowRight } from "lucide-react";
+import { Search, Menu, X, ArrowUpRight, Sun, Moon, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [isListsOpen, setIsListsOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const { theme, toggleTheme } = useTheme();
@@ -23,31 +22,10 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const navLinks = [
-        { name: "Home", href: "/" },
-        { name: "Blog", href: "/blog" },
-        { name: "About", href: "/about-us" },
-        { name: "Contact", href: "/contact" },
-    ];
-
-    const wordLists = [
-        { name: "3 Letters", href: "/list/3", desc: "Short & Sharp" },
-        { name: "4 Letters", href: "/list/4", desc: "Daily Core" },
-        { name: "5 Letters", href: "/list/5", desc: "Wordle Pro" },
-        { name: "6 Letters", href: "/list/6", desc: "Advanced" },
-        { name: "7 Letters", href: "/list/7", desc: "Scholar" },
-    ];
-
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (!searchQuery) return;
-        // Basic intelligence: if it's a number, go to that list, otherwise look for length
-        const len = searchQuery.length;
-        if (len >= 3 && len <= 7) {
-            router.push(`/list/${len}?search=${searchQuery}`);
-        } else {
-            router.push(`/list/5?search=${searchQuery}`);
-        }
+        router.push(`/list/5?search=${searchQuery}`);
         setIsSearchOpen(false);
     };
 
@@ -55,94 +33,98 @@ export default function Navbar() {
         <>
             <nav
                 className={cn(
-                    "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-4",
+                    "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-700 w-[95%] lg:w-[1200px]",
                     isScrolled
-                        ? "bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-2xl border-b border-emerald-100 dark:border-emerald-900/20 py-3"
-                        : "bg-transparent"
+                        ? "px-6 py-3 glass-island rounded-full"
+                        : "px-6 py-6 border-b border-[var(--border)]"
                 )}
             >
-                <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    {/* Logo - Updated Name */}
-                    <Link href="/" className="flex items-center gap-3 group">
-                        <div className="relative">
-                            <div className="absolute -inset-1 bg-gradient-to-tr from-emerald-500 to-blue-500 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-                            <div className="relative bg-emerald-600 p-2.5 rounded-xl group-hover:rotate-6 transition-transform duration-500 shadow-xl shadow-emerald-600/20">
-                                <Sparkles className="w-5 h-5 text-white" />
-                            </div>
+                <div className="flex items-center justify-between">
+                    {/* Brand */}
+                    <Link href="/" className="flex items-center gap-2 group">
+                        <div className="w-8 h-8 bg-amber-500 rounded-none flex items-center justify-center group-hover:rotate-90 transition-transform">
+                            <ArrowUpRight className="w-5 h-5 text-black" />
                         </div>
-                        <span className="text-2xl font-black tracking-tighter text-emerald-900 dark:text-emerald-50">5-Letter Word</span>
+                        <span className="font-heading font-black text-xl tracking-tighter uppercase whitespace-nowrap">
+                            5-Letter Word.
+                        </span>
                     </Link>
 
-                    {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-1">
-                        {navLinks.map((link) => (
+                    {/* Nav Links */}
+                    <div className="hidden lg:flex items-center gap-10">
+                        {["Blog", "About", "Contact"].map((l) => (
                             <Link
-                                key={link.name}
-                                href={link.href}
-                                className="px-5 py-2 text-sm font-black text-emerald-800/60 dark:text-emerald-100/40 hover:text-emerald-600 dark:hover:text-emerald-300 transition-all rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/30 uppercase tracking-widest"
+                                key={l}
+                                href={`/${l.toLowerCase().replace(' ', '-')}`}
+                                className="font-heading font-black text-xs uppercase tracking-widest text-gray-500 hover:text-amber-500 transition-colors"
                             >
-                                {link.name}
+                                {l}
                             </Link>
                         ))}
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                         <button
                             onClick={() => setIsSearchOpen(true)}
-                            className="p-2.5 text-emerald-800 dark:text-emerald-100 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-xl transition-all"
+                            className="p-1 hovered:text-amber-500 transition-colors"
                         >
-                            <Search className="w-5 h-5 font-bold" />
+                            <Search className="w-5 h-5" />
                         </button>
 
                         <button
                             onClick={toggleTheme}
-                            className="p-2.5 text-emerald-800 dark:text-emerald-100 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-xl transition-all"
+                            className="p-1 hover:text-amber-500 transition-colors"
                         >
                             {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
                         </button>
 
+                        <Link
+                            href="/list/5"
+                            className="hidden sm:flex items-center gap-3 bg-black dark:bg-white text-white dark:text-black px-6 py-3 font-heading font-black text-[10px] uppercase tracking-widest hover:bg-amber-500 hover:text-black transition-all"
+                        >
+                            DICTIONARY
+                        </Link>
+
                         <button
-                            className="md:hidden p-2.5 text-emerald-800 dark:text-emerald-100"
+                            className="lg:hidden p-1"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         >
-                            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                            <Menu className="w-6 h-6" />
                         </button>
                     </div>
                 </div>
             </nav>
 
-            {/* Search Overlay */}
+            {/* Unique Search Experience */}
             <AnimatePresence>
                 {isSearchOpen && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] bg-emerald-950/90 backdrop-blur-2xl flex items-center justify-center p-6"
+                        className="fixed inset-0 z-[100] bg-white dark:bg-black flex items-center justify-center p-6"
                     >
-                        <button
-                            onClick={() => setIsSearchOpen(false)}
-                            className="absolute top-10 right-10 text-white hover:rotate-90 transition-transform"
-                        >
-                            <X className="w-10 h-10" />
+                        <button onClick={() => setIsSearchOpen(false)} className="absolute top-12 right-12 hover:rotate-90 transition-transform">
+                            <X className="w-12 h-12" />
                         </button>
 
-                        <div className="w-full max-w-3xl text-center">
-                            <h2 className="text-4xl font-black text-white mb-12 tracking-tighter">Global Lexicon Search.</h2>
-                            <form onSubmit={handleSearch} className="relative">
+                        <div className="w-full max-w-5xl">
+                            <form onSubmit={handleSearch}>
+                                <div className="text-[10px] font-black tracking-[0.6em] text-amber-500 mb-8 uppercase">Initialize Discovery</div>
                                 <input
                                     autoFocus
                                     type="text"
-                                    placeholder="Type any word..."
+                                    placeholder="TYPE WORD_"
                                     value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full bg-transparent border-b-8 border-emerald-500/30 focus:border-emerald-500 py-6 text-5xl md:text-7xl font-black text-white outline-none placeholder:text-emerald-500/20 transition-all text-center"
+                                    onChange={(e) => setSearchQuery(e.target.value.toUpperCase())}
+                                    className="w-full bg-transparent border-none text-7xl md:text-[140px] font-heading font-black text-[var(--foreground)] outline-none placeholder:opacity-10 tracking-tighter"
                                 />
-                                <button type="submit" className="mt-12 group flex items-center gap-4 mx-auto bg-emerald-500 text-emerald-950 px-10 py-5 rounded-[2rem] font-black text-xl hover:bg-white transition-all">
-                                    Initialize Extraction
-                                    <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                                </button>
+                                <div className="flex items-center gap-8 mt-12">
+                                    <button className="font-heading font-black text-2xl border-b-4 border-amber-500 hover:gap-12 transition-all flex items-center gap-6">
+                                        START SEARCH <ArrowUpRight className="w-8 h-8 text-amber-500" />
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </motion.div>
@@ -153,21 +135,26 @@ export default function Navbar() {
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, x: 200 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 100 }}
-                        className="fixed inset-0 z-40 bg-emerald-50 dark:bg-slate-950 flex flex-col p-10 pt-32"
+                        initial={{ opacity: 0, scale: 1.1 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.1 }}
+                        className="fixed inset-0 z-[60] bg-white dark:bg-black pt-40 px-10"
                     >
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.href}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="text-5xl font-black text-emerald-950 dark:text-white py-4 border-b border-emerald-100 dark:border-emerald-900"
-                            >
-                                {link.name}
-                            </Link>
-                        ))}
+                        <button onClick={() => setMobileMenuOpen(false)} className="absolute top-10 right-10">
+                            <X className="w-10 h-10" />
+                        </button>
+                        <div className="flex flex-col gap-12">
+                            {["Home", "Blog", "About", "Contact", "Dictionary"].map((l) => (
+                                <Link
+                                    key={l}
+                                    href={l === 'Home' ? '/' : l === 'Dictionary' ? '/list/5' : `/${l.toLowerCase()}`}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="text-6xl font-heading font-black tracking-tighter uppercase text-gray-200 hover:text-amber-500 transition-colors"
+                                >
+                                    {l}
+                                </Link>
+                            ))}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

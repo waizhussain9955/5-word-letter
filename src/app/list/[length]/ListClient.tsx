@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, RotateCcw, Filter, BookOpen, Layers, Sparkles, X, LayoutGrid, List as ListIcon, SlidersHorizontal, ArrowDownWideNarrow } from "lucide-react";
+import { Search, RotateCcw, LayoutGrid, List as ListIcon, SlidersHorizontal, ArrowUpRight, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ListClientProps {
@@ -14,13 +14,13 @@ export default function ListClient({ length }: ListClientProps) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [showFilters, setShowFilters] = useState(false);
 
-    // Filter States
+    // Filters
     const [startsWith, setStartsWith] = useState("");
     const [endsWith, setEndsWith] = useState("");
     const [pattern, setPattern] = useState("");
     const [exclude, setExclude] = useState("");
-    const [showFilters, setShowFilters] = useState(false);
 
     useEffect(() => {
         async function loadData() {
@@ -31,10 +31,9 @@ export default function ListClient({ length }: ListClientProps) {
                 const data = await res.json();
                 setWords(data);
             } catch (err) {
-                console.error(err);
                 setError(true);
             } finally {
-                setTimeout(() => setLoading(false), 500);
+                setTimeout(() => setLoading(false), 800);
             }
         }
         loadData();
@@ -47,15 +46,11 @@ export default function ListClient({ length }: ListClientProps) {
             if (endsWith && !w.endsWith(endsWith.toLowerCase())) return false;
             if (pattern) {
                 const p = pattern.toLowerCase();
-                if (p.length === length || p.includes('_')) {
-                    const regexStr = `^${p.replace(/_/g, '.')}$`;
-                    try {
-                        const regex = new RegExp(regexStr);
-                        if (!regex.test(w)) return false;
-                    } catch (e) { return false; }
-                } else {
-                    if (!w.includes(p)) return false;
-                }
+                const regexStr = `^${p.replace(/_/g, '.')}$`;
+                try {
+                    const regex = new RegExp(regexStr);
+                    if (!regex.test(w)) return false;
+                } catch (e) { return false; }
             }
             if (exclude) {
                 const letters = exclude.toLowerCase().split("");
@@ -63,135 +58,107 @@ export default function ListClient({ length }: ListClientProps) {
             }
             return true;
         });
-    }, [words, startsWith, endsWith, pattern, exclude, length]);
-
-    const handleReset = () => {
-        setStartsWith(""); setEndsWith(""); setPattern(""); setExclude("");
-    };
+    }, [words, startsWith, endsWith, pattern, exclude]);
 
     return (
-        <div className="relative">
-            {/* Unique Dynamic Filter Header */}
-            <div className="mb-16 space-y-12">
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-12">
-                    <div className="relative">
-                        <div className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 font-black text-xs uppercase tracking-[0.4em] mb-4">
-                            <ArrowDownWideNarrow className="w-4 h-4" />
-                            <span>LEXICON DISCOVERY</span>
-                        </div>
-                        <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-gray-900 dark:text-white leading-[0.8] mb-6">
-                            {length} Letter <br /><span className="text-gradient">Database.</span>
-                        </h1>
-                        <p className="text-gray-500 font-black uppercase text-[10px] tracking-widest pl-1">
-                            Current Integrity: <span className="text-emerald-500">Verified</span> • {filteredWords.length.toLocaleString()} RESULTS
-                        </p>
+        <div className="pt-20">
+            {/* 1. ARCHIVE HEADER */}
+            <header className="mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-12">
+                <div>
+                    <div className="flex items-center gap-3 mb-6">
+                        <span className="font-heading font-black text-amber-500 uppercase tracking-widest text-xs">Specification</span>
+                        <div className="h-px w-24 bg-amber-500/20" />
                     </div>
-
-                    <div className="flex flex-wrap items-center gap-4">
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => setShowFilters(!showFilters)}
-                            className={cn(
-                                "flex items-center gap-3 px-8 py-5 rounded-[2rem] font-black text-sm uppercase tracking-widest transition-all border-2 shadow-2xl shadow-indigo-500/10",
-                                showFilters ? "bg-indigo-600 text-white border-indigo-600" : "bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border-gray-100 dark:border-zinc-800"
-                            )}
-                        >
-                            <SlidersHorizontal className="w-5 h-5" />
-                            Configure Engine
-                        </motion.button>
-
-                        <div className="flex bg-white dark:bg-zinc-900 p-2 rounded-[1.5rem] border border-gray-100 dark:border-zinc-800 shadow-xl">
-                            <button onClick={() => setViewMode('grid')} className={cn("p-4 rounded-xl transition-all", viewMode === 'grid' ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600" : "text-gray-400")}>
-                                <LayoutGrid className="w-5 h-5" />
-                            </button>
-                            <button onClick={() => setViewMode('list')} className={cn("p-4 rounded-xl transition-all", viewMode === 'list' ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600" : "text-gray-400")}>
-                                <ListIcon className="w-5 h-5" />
-                            </button>
-                        </div>
+                    <h1 className="text-8xl md:text-[120px] font-heading font-black tracking-tighter leading-none mb-4">
+                        LENGTH_{length}
+                    </h1>
+                    <div className="font-heading font-black text-xs text-gray-400 uppercase tracking-[0.5em]">
+                        Total Index: {words.length.toLocaleString()} Entries
                     </div>
                 </div>
 
-                {/* Stylish Unique Filter Panel */}
-                <AnimatePresence>
-                    {showFilters && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -40, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -40, scale: 0.98 }}
-                            className="bg-white dark:bg-[#121215] border-2 border-indigo-500/10 dark:border-indigo-500/5 p-12 rounded-[4rem] shadow-[-20px_20px_80px_rgba(0,0,0,0.05)] dark:shadow-[-20px_20px_80px_rgba(0,0,0,0.4)] relative overflow-hidden"
-                        >
-                            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
+                <div className="flex flex-wrap gap-4">
+                    <button
+                        onClick={() => setShowFilters(!showFilters)}
+                        className="group bg-black dark:bg-white text-white dark:text-black px-10 py-5 font-heading font-black text-xs uppercase tracking-widest flex items-center gap-4 hover:bg-amber-500 hover:text-black transition-all"
+                    >
+                        <SlidersHorizontal className="w-4 h-4" />
+                        {showFilters ? 'CLOSE_SYSTEM' : 'SYSTEM_OVERRIDE'}
+                    </button>
+                    <div className="flex bg-[var(--card)] p-2 border border-[var(--border)]">
+                        <button onClick={() => setViewMode('grid')} className={cn("p-4 transition-all", viewMode === 'grid' ? "bg-amber-500 text-black" : "text-gray-400")}>
+                            <LayoutGrid className="w-5 h-5" />
+                        </button>
+                        <button onClick={() => setViewMode('list')} className={cn("p-4 transition-all", viewMode === 'list' ? "bg-amber-500 text-black" : "text-gray-400")}>
+                            <ListIcon className="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
+            </header>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
-                                {[
-                                    { label: "PREFIX", val: startsWith, set: setStartsWith, placeholder: "e.g. TH" },
-                                    { label: "SUFFIX", val: endsWith, set: setEndsWith, placeholder: "e.g. ER" },
-                                    { label: "STRUCTURE", val: pattern, set: setPattern, placeholder: "_A_E_" },
-                                    { label: "EXCLUSIONS", val: exclude, set: setExclude, placeholder: "QXZ" }
-                                ].map((field, i) => (
-                                    <div key={i} className="space-y-4">
-                                        <div className="flex items-center justify-between">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 pl-1">{field.label}</label>
-                                            {field.val && <button onClick={() => field.set("")} className="text-[10px] font-black text-indigo-500 uppercase">Clear</button>}
-                                        </div>
-                                        <input
-                                            type="text"
-                                            value={field.val}
-                                            onChange={(e) => field.set(e.target.value.toUpperCase())}
-                                            placeholder={field.placeholder}
-                                            className="w-full bg-gray-50 dark:bg-black border-2 border-transparent focus:border-indigo-500/50 rounded-2xl px-6 py-5 text-sm font-black outline-none transition-all focus:ring-4 ring-indigo-500/5 tracking-widest placeholder:text-gray-300 dark:placeholder:text-zinc-800"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
+            {/* 2. FILTER TECH PANEL */}
+            <AnimatePresence>
+                {showFilters && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden mb-32 border-b border-[var(--border)] pb-24"
+                    >
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                            {[
+                                { label: "PREFIX", val: startsWith, set: setStartsWith, placeholder: "TH" },
+                                { label: "SUFFIX", val: endsWith, set: setEndsWith, placeholder: "ER" },
+                                { label: "MASK", val: pattern, set: setPattern, placeholder: "_A_E_" },
+                                { label: "EXCLUDE", val: exclude, set: setExclude, placeholder: "QXZ" }
+                            ].map((f, i) => (
+                                <div key={i} className="space-y-4">
+                                    <label className="font-heading font-black text-[10px] uppercase tracking-widest text-gray-400">{f.label}</label>
+                                    <input
+                                        type="text"
+                                        value={f.val}
+                                        onChange={(e) => f.set(e.target.value.toUpperCase())}
+                                        placeholder={f.placeholder}
+                                        className="w-full bg-transparent border-b-2 border-zinc-200 dark:border-zinc-800 py-4 text-2xl font-heading font-black focus:border-amber-500 outline-none transition-all uppercase tracking-widest"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-                            <div className="mt-12 pt-8 border-t border-gray-100 dark:border-zinc-800 flex items-center justify-between">
-                                <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">REAL-TIME INDEX UPDATING</div>
-                                <button onClick={handleReset} className="flex items-center gap-2 text-xs font-black text-rose-500 uppercase tracking-widest hover:scale-105 transition-transform">
-                                    <RotateCcw className="w-4 h-4" /> Reset Filters
-                                </button>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
-
-            {/* Word Grid - Custom Styles */}
+            {/* 3. DATA GRID */}
             {loading ? (
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                    {[...Array(24)].map((_, i) => (
-                        <div key={i} className="h-24 bg-white dark:bg-zinc-900/50 rounded-[2rem] animate-pulse border border-gray-100 dark:border-zinc-800/50" />
+                <div className="grid grid-cols-2 lg:grid-cols-5 gap-0">
+                    {[...Array(20)].map((_, i) => (
+                        <div key={i} className="aspect-square bg-gray-50 dark:bg-zinc-950 border border-[var(--border)] animate-pulse" />
                     ))}
                 </div>
             ) : filteredWords.length > 0 ? (
-                <div className={cn("gap-8", viewMode === 'grid' ? "grid grid-cols-2 lg:grid-cols-6" : "flex flex-col")}>
-                    {filteredWords.slice(0, 400).map((word, idx) => (
+                <div className={cn("gap-0 border-l border-t border-[var(--border)] overflow-hidden", viewMode === 'grid' ? "grid grid-cols-2 lg:grid-cols-5" : "flex flex-col")}>
+                    {filteredWords.slice(0, 500).map((word, idx) => (
                         <motion.div
                             key={word}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
-                            whileHover={{ y: -8, scale: 1.05 }}
-                            className="premium-card group p-8 flex flex-col items-center justify-center text-center relative overflow-hidden"
+                            className="luxury-card aspect-square flex flex-col items-center justify-center p-8 group border-collapse"
                         >
-                            <div className="absolute top-2 left-2 text-[8px] font-black text-gray-300 dark:text-zinc-700 font-mono">#{idx + 1}</div>
-                            <span className="text-3xl font-black tracking-[0.2em] uppercase text-gray-900 dark:text-white transition-colors">
+                            <span className="text-[10px] font-black text-zinc-300 dark:text-zinc-800 absolute top-4 left-4 font-mono group-hover:text-amber-500 transition-colors">#{idx + 1}</span>
+                            <h3 className="text-4xl md:text-5xl font-heading font-black uppercase tracking-tighter group-hover:scale-110 group-hover:text-amber-500 transition-all duration-500">
                                 {word}
-                            </span>
-                            <div className="mt-4 flex gap-1">
-                                {[...Array(length)].map((_, i) => (
-                                    <div key={i} className="w-1 h-1 rounded-full bg-gray-200 dark:bg-zinc-800 group-hover:bg-indigo-600 transition-colors" />
-                                ))}
-                            </div>
+                            </h3>
+                            <button className="mt-8 text-[8px] font-black tracking-widest text-zinc-300 opacity-0 group-hover:opacity-100 uppercase transition-all">
+                                VIEW_ENTRY
+                            </button>
                         </motion.div>
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-40 premium-card bg-gray-50 dark:bg-zinc-900/10 border-dashed border-4 border-gray-200 dark:border-zinc-800">
-                    <Search className="w-16 h-16 text-gray-200 mx-auto mb-6" />
-                    <h3 className="text-4xl font-black tracking-tighter text-gray-900 dark:text-white">Lexicon Empty.</h3>
-                    <p className="text-gray-500 font-medium">No results match your current configuration.</p>
+                <div className="py-40 text-center border-t border-dashed border-[var(--border)]">
+                    <h2 className="text-5xl font-heading font-black text-gray-200 uppercase mb-4 tracking-tighter">NULL_RESULT</h2>
+                    <p className="text-gray-400 font-medium">Clear override to resume archive retrieval.</p>
                 </div>
             )}
         </div>
