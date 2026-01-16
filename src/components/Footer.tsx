@@ -1,57 +1,77 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { Command, Mail, Globe, MapPin } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="bg-black text-white pt-40 pb-20 px-6 lg:px-24 border-t border-zinc-900 overflow-hidden relative">
-            {/* Massive Background Text */}
-            <div className="absolute top-0 right-0 pointer-events-none select-none">
-                <span className="text-[300px] font-heading font-black opacity-[0.02] leading-none -mr-40 block">5-LETTER</span>
-            </div>
-
-            <div className="max-w-[1400px] mx-auto relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 mb-40">
-                    <div className="lg:col-span-6">
-                        <Link href="/" className="inline-block mb-12">
-                            <span className="text-4xl md:text-5xl font-heading font-black tracking-tighter uppercase border-b-8 border-amber-500 pb-2">5-Letter Word.</span>
+        <footer className="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900 pt-24 pb-12 px-6">
+            <div className="max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+                    <div className="space-y-6">
+                        <Link href="/" className="flex items-center gap-2 group">
+                            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-500/10">
+                                <Command className="w-5 h-5" />
+                            </div>
+                            <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+                                5-Letter<span className="text-blue-600">Word</span>
+                            </span>
                         </Link>
-                        <p className="text-zinc-500 text-xl font-bold leading-relaxed max-w-md mb-16">
-                            The internet's most sophisticated linguistic archive. Providing precision word discovery for institutional and creative applications.
+                        <p className="text-slate-500 font-medium leading-relaxed">
+                            A precision-engineered dictionary for the modern web. Helping you find the exact words for any use case.
                         </p>
-                        <div className="flex flex-wrap gap-12 font-heading font-black text-xs uppercase tracking-widest text-zinc-400">
-                            <Link href="#" className="hover:text-amber-500 transition-colors">Twitter_X</Link>
-                            <Link href="#" className="hover:text-amber-500 transition-colors">GitHub_Sync</Link>
-                            <Link href="#" className="hover:text-amber-500 transition-colors">Archive_Status</Link>
-                        </div>
                     </div>
 
-                    <div className="lg:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-12">
-                        <div className="space-y-12">
-                            <h4 className="text-[10px] font-black text-amber-500 uppercase tracking-[0.4em]">ARCHIVE_INDEX</h4>
-                            <ul className="space-y-6 font-heading font-black text-xs uppercase tracking-widest text-zinc-400">
-                                {[3, 4, 5, 6, 7].map((n) => (
-                                    <li key={n}><Link href={`/list/${n}`} className="hover:text-amber-500 transition-colors">Length_{n}</Link></li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div className="space-y-12">
-                            <h4 className="text-[10px] font-black text-amber-500 uppercase tracking-[0.4em]">PLATFORM_HUB</h4>
-                            <ul className="space-y-6 font-heading font-black text-xs uppercase tracking-widest text-zinc-400">
-                                <li><Link href="/blog" className="hover:text-amber-500 transition-colors">The_Journal</Link></li>
-                                <li><Link href="/about-us" className="hover:text-amber-500 transition-colors">Our_Identity</Link></li>
-                                <li><Link href="/contact" className="hover:text-amber-500 transition-colors">Terminal_Hub</Link></li>
-                            </ul>
-                        </div>
+                    <div>
+                        <h4 className="font-bold mb-6 text-slate-900 dark:text-white uppercase text-xs tracking-widest">Navigation</h4>
+                        <ul className="space-y-4">
+                            {["Home", "Blog", "About Us", "Contact"].map((l) => (
+                                <li key={l}>
+                                    <Link href={l === 'Home' ? '/' : `/${l.toLowerCase().replace(' ', '-')}`} className="text-slate-500 hover:text-blue-600 transition-colors font-medium">
+                                        {l}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 className="font-bold mb-6 text-slate-900 dark:text-white uppercase text-xs tracking-widest">Connect</h4>
+                        <ul className="space-y-4">
+                            <li className="flex items-center gap-3 text-slate-500 font-medium">
+                                <Mail className="w-5 h-5" /> contact@5letterword.com
+                            </li>
+                            <li className="flex items-center gap-3 text-slate-500 font-medium">
+                                <Globe className="w-5 h-5" /> Global Access
+                            </li>
+                            <li className="flex items-center gap-3 text-slate-500 font-medium">
+                                <MapPin className="w-5 h-5" /> Digital-First
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 className="font-bold mb-6 text-slate-900 dark:text-white uppercase text-xs tracking-widest">Legal</h4>
+                        <ul className="space-y-4">
+                            {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((l) => (
+                                <li key={l}>
+                                    <Link href="/privacy-policy" className="text-slate-500 hover:text-blue-600 transition-colors font-medium">
+                                        {l}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
 
-                <div className="pt-20 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-12">
-                    <div className="flex items-center gap-6">
-                        <span className="text-[10px] font-black tracking-[0.6em] text-zinc-700 uppercase">System Integrity: Balanced</span>
-                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
-                    </div>
-                    <div className="text-[10px] font-black text-zinc-700 uppercase tracking-[0.4em]">
-                        © 2026 ARCHIVE_SYSTEMS. ALL_PROTOCOL_RESERVED.
+                <div className="pt-12 border-t border-slate-200 dark:border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <p className="text-slate-500 text-sm font-medium">
+                        © 2026 5-LetterWord. All rights reserved. Built with precision.
+                    </p>
+                    <div className="flex gap-8">
+                        {["Twitter", "LinkedIn", "GitHub"].map((s) => (
+                            <Link key={s} href="#" className="text-slate-400 hover:text-blue-600 transition-colors text-sm font-bold uppercase tracking-widest">
+                                {s}
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </div>

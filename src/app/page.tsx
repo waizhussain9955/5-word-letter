@@ -1,183 +1,114 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Zap, Globe, Layers } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Book, Globe, Zap, Search, LayoutGrid } from "lucide-react";
 import Link from "next/link";
-import { useRef } from "react";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const sections = [
+    { len: 5, label: "5 Letters", desc: "The Primary Corpus", color: "bg-blue-600", words: "2,000+" },
+    { len: 3, label: "3 Letters", desc: "The Concise Set", color: "bg-purple-600", words: "2,000+" },
+    { len: 4, label: "4 Letters", desc: "The Daily Core", color: "bg-indigo-600", words: "2,000+" },
+    { len: 6, label: "6 Letters", desc: "Extended Lexicon", color: "bg-violet-600", words: "2,000+" },
+    { len: 7, label: "7 Letters", desc: "Scientific Index", color: "bg-blue-500", words: "2,000+" }
+  ];
 
   return (
-    <div ref={containerRef} className="relative pt-20 overflow-hidden bg-[var(--background)]">
+    <div className="pt-40 pb-20 relative">
+      <div className="max-w-7xl mx-auto px-6">
 
-      {/* 1. HERO SECTION - Precision Aligned */}
-      <section className="min-h-screen flex flex-col lg:flex-row relative lg:px-24">
-        {/* Left Side: Massive Typography */}
-        <div className="flex-1 flex flex-col justify-center px-6 py-24 relative z-10 lg:pr-24 lg:border-r border-[var(--border)]">
+        {/* Modern Hero */}
+        <div className="text-center mb-32">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full text-blue-600 dark:text-blue-400 text-xs font-bold mb-8"
+          >
+            <Zap className="w-4 h-4" />
+            <span>2026 Dictionary Architecture</span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-12"
+            className="text-6xl md:text-8xl font-black tracking-tight mb-8 leading-[1.1] text-slate-900 dark:text-white"
           >
-            <div className="flex items-center gap-4 mb-10">
-              <div className="h-px w-16 bg-amber-500" />
-              <span className="font-heading font-black text-amber-500 tracking-[0.5em] text-[11px] uppercase">Linguistic Architecture</span>
-            </div>
-            <h1 className="text-6xl md:text-8xl font-heading font-black leading-[0.9] tracking-tighter mb-12 uppercase">
-              5-LETTER <br />
-              <span className="text-luxury">WORD.</span>
-            </h1>
-            <p className="text-lg md:text-xl text-gray-500 dark:text-zinc-500 max-w-lg font-bold leading-relaxed mb-20 tracking-tight">
-              The world's most curated repository of precision language. Experience the intersection of technology and linguistics.
-            </p>
+            Find the perfect <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">5-Letter Word.</span>
+          </motion.h1>
 
-            <div className="flex flex-wrap gap-12">
-              <Link href="/list/5" className="group flex items-center gap-6 py-6 border-b-6 border-amber-500 hover:gap-12 transition-all">
-                <span className="font-heading font-black text-3xl">OPEN_ARCHIVE</span>
-                <ArrowUpRight className="w-10 h-10 text-amber-500 group-hover:rotate-45 transition-transform" />
-              </Link>
-            </div>
-          </motion.div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed"
+          >
+            We've indexed over 10,000 curated words processed with millisecond precision logic.
+            The ultimate tool for creators and gamers.
+          </motion.p>
 
-          {/* Micro Stats - Aligned Bottom */}
-          <div className="mt-auto grid grid-cols-3 gap-12 pt-24 border-t border-[var(--border)]">
-            {[
-              { val: "16K+", label: "ENTRIES" },
-              { val: "0.1MS", label: "LATENCY" },
-              { val: "GOLD", label: "STANDARD" }
-            ].map((s, i) => (
-              <div key={i} className="flex flex-col gap-3">
-                <span className="text-[10px] font-black text-gray-400 dark:text-zinc-800 tracking-[0.3em] uppercase">{s.label}</span>
-                <span className="font-heading font-black text-2xl tracking-tighter">{s.val}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Right Side: Interactive Grid Visuals */}
-        <div className="flex-1 relative hidden lg:block overflow-hidden bg-black dark:bg-zinc-950">
           <motion.div
-            style={{ y: useTransform(scrollYProgress, [0, 1], [0, -400]) }}
-            className="absolute inset-0 flex flex-col gap-8 p-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-wrap justify-center gap-6"
           >
-            {["ALPHA", "BETA", "LEXIS", "OMNI", "ZETA", "DATA"].map((label, i) => (
-              <div key={i} className="min-h-[400px] w-full bg-white dark:bg-black border-2 border-zinc-100 dark:border-zinc-900 flex items-center justify-center relative group rounded-[3rem] shadow-2xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <span className="font-heading text-9xl font-black text-gray-100 dark:text-white/5 select-none uppercase transition-all duration-700 group-hover:scale-125 group-hover:text-amber-500/20">
-                  {label}
-                </span>
-              </div>
-            ))}
+            <Link href="/list/5" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all shadow-xl shadow-blue-600/20 flex items-center gap-3">
+              Start Exploring
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <button className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center gap-3">
+              Search Database
+              <Search className="w-5 h-5 opacity-50" />
+            </button>
           </motion.div>
         </div>
-      </section>
 
-      {/* 2. HORIZONTAL KINETIC SCROLL - Adjusted Padding */}
-      <div className="py-32 border-y border-[var(--border)] bg-black text-white relative flex items-center">
-        <motion.div style={{ x }} className="flex gap-20 whitespace-nowrap px-10">
-          {[...Array(6)].map((_, i) => (
-            <span key={i} className="text-[140px] font-heading font-black tracking-tighter opacity-10 hover:opacity-100 hover:text-amber-500 transition-all cursor-default select-none uppercase">
-              ARCHIVE_PROTOCOL_5_LETTER_WORD
-            </span>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* 3. THE COLLECTIONS - Added Gaps and Better Alignment */}
-      <section className="py-40 px-6 lg:px-24">
-        <div className="max-w-[1400px] mx-auto">
-          <header className="mb-32 flex flex-col md:flex-row md:items-end justify-between gap-12">
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <span className="font-heading font-black text-amber-500 uppercase tracking-widest text-xs">Section_02</span>
-                <div className="h-px w-24 bg-amber-500/20" />
+        {/* Dynamic Card Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-32">
+          {sections.map((s, i) => (
+            <motion.div
+              key={s.len}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="prism-card p-8 group flex flex-col justify-between"
+            >
+              <div>
+                <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center text-white mb-6 shadow-lg", s.color)}>
+                  <LayoutGrid className="w-6 h-6" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">{s.label}</h3>
+                <p className="text-sm text-slate-500 font-medium mb-8">{s.desc}</p>
               </div>
-              <h2 className="text-6xl md:text-9xl font-heading font-black tracking-tighter uppercase leading-[0.8]">The <br />Collections.</h2>
-              <p className="text-gray-500 dark:text-zinc-500 font-bold text-xl uppercase tracking-tight">Curated lexical matrices for rapid retrieval.</p>
-            </div>
-            <Link href="/blog" className="group flex items-center gap-4 py-4 px-10 bg-black dark:bg-white text-white dark:text-black rounded-full font-heading font-black text-xs tracking-widest hover:bg-amber-500 hover:text-black transition-all shadow-2xl">
-              VIEW JOURNAL <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
-            </Link>
-          </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {[
-              { len: 5, label: "Daily Core", desc: "The gold standard for modern word-based interactions and logic puzzles." },
-              { len: 3, label: "Snap Tier", desc: "Short, sharp, and high-impact vocabulary for aggressive communication." },
-              { len: 7, label: "Scholar", desc: "Complex structures and multi-syllabic entries for precise scholarly work." }
-            ].map((cat, i) => (
-              <Link
-                key={cat.len}
-                href={`/list/${cat.len}`}
-                className="luxury-card p-16 flex flex-col justify-between aspect-square group shadow-none hover:border-amber-500/50"
-              >
-                <div className="flex justify-between items-start">
-                  <span className="font-heading text-8xl font-black text-gray-100 dark:text-zinc-900 group-hover:text-amber-500 transition-all duration-500">0{i + 1}</span>
-                  <ArrowUpRight className="w-10 h-10 opacity-20 group-hover:opacity-100 group-hover:translate-x-3 transition-all" />
-                </div>
-                <div>
-                  <h3 className="text-4xl font-heading font-black mb-6 uppercase tracking-tight">{cat.label}</h3>
-                  <p className="text-gray-400 font-black text-xs leading-relaxed mb-12 uppercase tracking-widest opacity-60">{cat.desc}</p>
-                  <div className="h-1.5 w-full bg-zinc-50 dark:bg-zinc-900 overflow-hidden relative rounded-full">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: "100%" }}
-                      transition={{ duration: 1, delay: i * 0.2 }}
-                      className="absolute inset-0 bg-amber-500"
-                    />
-                  </div>
-                </div>
+              <Link href={`/list/${s.len}`} className="flex items-center justify-between group-hover:text-blue-600 transition-colors">
+                <span className="text-xs font-bold uppercase tracking-widest">{s.words} Words</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
-      </section>
 
-      {/* 4. PERFORMANCE ARCHITECTURE - Better Row Alignment */}
-      <section className="py-40 px-6 lg:px-24 bg-black text-white relative overflow-hidden">
-        <div className="absolute inset-0 geometric-bg opacity-5 scale-150 rotate-12" />
-
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center relative z-10">
-          <div className="space-y-20">
-            <h2 className="text-7xl md:text-[120px] font-heading font-black tracking-tighter leading-[0.8] uppercase">
-              EXTREME <br /> <span className="text-amber-500">VELOCITY_</span>
-            </h2>
-            <div className="space-y-16">
-              {[
-                { title: "No Latency Logic", desc: "Instant pattern matching across 20,000+ localized entries." },
-                { title: "Institutional Data", desc: "Verified against global Oxford and Scrabble linguistic standards." },
-                { title: "Recursive Search", desc: "Advanced regex-based discovery engine for deep pattern analysis." }
-              ].map((f, i) => (
-                <div key={i} className="flex gap-10 group">
-                  <div className="w-20 h-20 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-black transition-all group-hover:scale-110">
-                    <Zap className="w-10 h-10" />
-                  </div>
-                  <div>
-                    <h4 className="text-3xl font-heading font-black uppercase mb-4 tracking-tight">{f.title}</h4>
-                    <p className="text-gray-500 font-bold max-w-sm tracking-tight">{f.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative aspect-square hidden lg:flex flex-col justify-center items-center">
-            <div className="w-full max-w-lg aspect-square border-2 border-amber-500/20 rounded-full flex items-center justify-center animate-spin-slow">
-              <div className="w-[80%] h-[80%] border-2 border-amber-500/10 rounded-full flex items-center justify-center animate-reverse-slow">
-                <div className="w-[60%] h-[60%] border-2 border-amber-500/5 rounded-full" />
+        {/* Core Features */}
+        <div className="bg-slate-50 dark:bg-slate-950 rounded-[2.5rem] p-12 md:p-20 grid grid-cols-1 md:grid-cols-3 gap-16 border border-slate-100 dark:border-slate-900">
+          {[
+            { icon: Zap, title: "0ms Search", desc: "Instant pattern matching results across all datasets." },
+            { icon: Globe, title: "Standardized", desc: "Fully compatible with Worldle and competitive Scrabble." },
+            { icon: Book, title: "Curated", desc: "No noise. Every word is hand-verified for integrity." }
+          ].map((f, i) => (
+            <div key={i} className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center text-blue-600 mb-6 shadow-sm">
+                <f.icon className="w-8 h-8" />
               </div>
+              <h4 className="text-xl font-bold mb-4">{f.title}</h4>
+              <p className="text-slate-500 font-medium leading-relaxed">{f.desc}</p>
             </div>
-            <div className="absolute flex flex-col items-center">
-              <div className="text-[12px] font-black tracking-[0.5em] text-amber-500 mb-8 uppercase bg-black px-6">System Core</div>
-              <div className="text-7xl font-heading font-black uppercase animate-pulse">Online</div>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
     </div>
   );
 }

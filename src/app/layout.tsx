@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, Syne } from "next/font/google";
+import { Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "./ThemeProvider";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "5-Letter Word | Luxury Linguistic Archive",
-  description: "The world's most sophisticated dictionary for precision words.",
+  title: "5-Letter Word | Cleanest Word Engine",
+  description: "A fast, modern dictionary for word discovery.",
 };
 
 export default function RootLayout({
@@ -20,11 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${syne.variable} font-sans`}>
+      <body className={`${outfit.variable} ${mono.variable} font-sans`}>
         <ThemeProvider>
-          {/* Global Aesthetic Elements */}
-          <div className="fixed inset-0 geometric-bg -z-10" />
-          <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-amber-500/5 blur-[120px] -z-10" />
+          {/* Subtle Background Elements */}
+          <div className="blob w-[500px] h-[500px] bg-blue-500 top-[-100px] right-[-100px]" />
+          <div className="blob w-[400px] h-[400px] bg-purple-500 bottom-[-100px] left-[-100px]" />
 
           <Navbar />
           <main className="min-h-screen">
