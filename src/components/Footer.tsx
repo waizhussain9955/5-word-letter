@@ -1,79 +1,61 @@
 import Link from "next/link";
-import { Sparkles, Mail, Globe, Github, Twitter, Instagram } from "lucide-react";
+import { Zap, Github, Twitter, Instagram, ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="bg-zinc-50 dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-900 pt-32 pb-16 px-6">
-            <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 mb-32">
-                    <div className="space-y-8">
-                        <Link href="/" className="flex items-center gap-2 group">
-                            <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/10">
-                                <Sparkles className="w-5 h-5 fill-current" />
-                            </div>
-                            <span className="text-xl font-bold tracking-tight">
-                                5-Letter<span className="text-indigo-600">Word</span>
-                            </span>
+        <footer className="bg-black text-white pt-60 pb-20 px-6 border-t border-zinc-900 overflow-hidden relative">
+            {/* Massive Background Text */}
+            <div className="absolute top-0 right-0 pointer-events-none select-none opacity-[0.05]">
+                <span className="text-[400px] font-heading font-black leading-none -mr-80 block translate-y-20">NOVA</span>
+            </div>
+
+            <div className="max-w-7xl mx-auto relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 mb-60">
+                    <div className="lg:col-span-6">
+                        <Link href="/" className="inline-block mb-12">
+                            <span className="text-6xl font-heading font-black tracking-tighter uppercase italic border-b-8 border-cyan-500 pb-2">NOVA_5.</span>
                         </Link>
-                        <p className="text-zinc-500 font-medium leading-relaxed">
-                            Precision linguistic architecture for creators and scholars. The internet's most curated word engine.
+                        <p className="text-zinc-500 text-2xl font-bold leading-relaxed max-w-md mb-16">
+                            Architecting the future of linguistic intelligence. Providing precision word discovery for the digital era.
                         </p>
-                        <div className="flex items-center gap-5">
+                        <div className="flex gap-10">
                             {[Twitter, Instagram, Github].map((Icon, i) => (
-                                <Link key={i} href="#" className="p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-indigo-600 hover:border-indigo-600 transition-all">
-                                    <Icon className="w-5 h-5" />
+                                <Link key={i} href="#" className="w-16 h-16 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-cyan-500 hover:text-black transition-all hover:border-cyan-500 group">
+                                    <Icon className="w-6 h-6 group-hover:scale-125 transition-transform" />
                                 </Link>
                             ))}
                         </div>
                     </div>
 
-                    <div>
-                        <h4 className="font-bold mb-8 text-xs tracking-[0.2em] uppercase text-zinc-400">Archival Indices</h4>
-                        <ul className="space-y-4">
-                            {[3, 4, 5, 6, 7].map((l) => (
-                                <li key={l}>
-                                    <Link href={`/list/${l}`} className="text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 transition-colors font-semibold text-sm">
-                                        Dictionary L{l}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h4 className="font-bold mb-8 text-xs tracking-[0.2em] uppercase text-zinc-400">Platform</h4>
-                        <ul className="space-y-4">
-                            {["Journal", "About", "Contact", "Privacy"].map((l) => (
-                                <li key={l}>
-                                    <Link href={l === 'Privacy' ? '/privacy-policy' : `/${l.toLowerCase()}`} className="text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 transition-colors font-semibold text-sm">
-                                        {l}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="space-y-8">
-                        <h4 className="font-bold text-xs tracking-[0.2em] uppercase text-zinc-400">Global Connectivity</h4>
-                        <p className="text-sm text-zinc-500 font-medium leading-loose">
-                            Institutional access or creative inquiries: <br />
-                            <span className="text-zinc-900 dark:text-white font-bold">connect@5letterword.com</span>
-                        </p>
-                        <div className="pt-6 border-t border-zinc-100 dark:border-zinc-900">
-                            <div className="flex items-center gap-3">
-                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Network Operational</span>
-                            </div>
+                    <div className="lg:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-12">
+                        <div className="space-y-12">
+                            <h4 className="text-[10px] font-black text-cyan-500 uppercase tracking-[0.5em]">SYSTEM_MAP</h4>
+                            <ul className="space-y-6 font-heading font-black text-sm uppercase">
+                                {["Home", "Blog", "About", "Contact"].map((l) => (
+                                    <li key={l}><Link href={l === 'Home' ? '/' : `/${l.toLowerCase()}`} className="hover:text-cyan-500 transition-colors flex items-center gap-2 group">
+                                        {l} <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    </Link></li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="space-y-12">
+                            <h4 className="text-[10px] font-black text-cyan-500 uppercase tracking-[0.5em]">DATA_REGIONS</h4>
+                            <ul className="space-y-6 font-heading font-black text-sm uppercase">
+                                {[3, 5, 7].map((n) => (
+                                    <li key={n}><Link href={`/list/${n}`} className="hover:text-cyan-500 transition-colors">Archive_L{n}</Link></li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <div className="pt-16 border-t border-zinc-200 dark:border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-8">
-                    <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest">
-                        © 2026 5-LetterWord Syndicate.
-                    </p>
-                    <div className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-300 dark:text-zinc-700">
-                        Designed with Zen Accuracy_
+                <div className="pt-20 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-12">
+                    <div className="flex items-center gap-6">
+                        <div className="w-2.5 h-2.5 rounded-full bg-cyan-500 shadow-[0_0_15px_rgba(0,242,255,0.5)] animate-pulse" />
+                        <span className="text-[10px] font-black tracking-[0.6em] text-zinc-700 uppercase">System Integrity: Nominal</span>
+                    </div>
+                    <div className="text-[10px] font-black text-zinc-700 uppercase tracking-[0.5em]">
+                        © 2026 NOVA_ARCHIVE_SYSTEMS. ALL_PROTOCOL_RESERVED.
                     </div>
                 </div>
             </div>

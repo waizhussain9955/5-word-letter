@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Menu, X, Command, Sun, Moon, Sparkles } from "lucide-react";
+import { Search, Menu, X, Zap, Sun, Moon, ArrowRight, Ghost } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -30,132 +30,137 @@ export default function Navbar() {
     };
 
     return (
-        <header
-            className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-                isScrolled ? "bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 py-4 shadow-sm" : "bg-transparent py-6"
-            )}
-        >
-            <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-                {/* Brand */}
-                <Link href="/" className="flex items-center gap-2 group">
-                    <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:rotate-6 transition-transform">
-                        <Sparkles className="w-5 h-5 fill-current" />
-                    </div>
-                    <span className="text-xl font-bold tracking-tight">
-                        5-Letter<span className="text-indigo-600">Word</span>
-                    </span>
-                </Link>
+        <>
+            <nav className={cn(
+                "fixed top-6 left-0 right-0 z-50 transition-all duration-500 flex justify-center px-4",
+                isScrolled ? "top-4" : "top-8"
+            )}>
+                <div className={cn(
+                    "flex items-center justify-between w-full max-w-5xl px-8 py-4 transition-all duration-500",
+                    isScrolled
+                        ? "bg-white/40 dark:bg-black/40 backdrop-blur-2xl rounded-full border border-white/20 dark:border-white/10 shadow-[0_8px_32px_rgba(0,242,255,0.1)]"
+                        : "bg-transparent border-transparent"
+                )}>
+                    {/* Logo */}
+                    <Link href="/" className="flex items-center gap-3 group">
+                        <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center p-0.5 shadow-lg shadow-cyan-500/20 group-hover:rotate-[360deg] transition-transform duration-700">
+                            <div className="w-full h-full bg-white dark:bg-black rounded-full flex items-center justify-center">
+                                <Zap className="w-5 h-5 text-cyan-500 fill-current" />
+                            </div>
+                        </div>
+                        <span className="text-2xl font-heading font-black tracking-tighter uppercase italic">
+                            NOVA<span className="text-cyan-500">_</span>5
+                        </span>
+                    </Link>
 
-                {/* Main Nav */}
-                <nav className="hidden md:flex items-center gap-10">
-                    {[
-                        { name: "Explorer", href: "/list/5" },
-                        { name: "Journal", href: "/blog" },
-                        { name: "About", href: "/about-us" },
-                        { name: "Contact", href: "/contact" }
-                    ].map((l) => (
-                        <Link
-                            key={l.name}
-                            href={l.href}
-                            className="text-sm font-medium text-zinc-500 hover:text-indigo-600 transition-colors"
-                        >
-                            {l.name}
-                        </Link>
-                    ))}
-                </nav>
-
-                {/* Actions */}
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={() => setIsSearchOpen(true)}
-                        className="p-2.5 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-all"
-                        aria-label="Search"
-                    >
-                        <Search className="w-5 h-5" />
-                    </button>
-
-                    <button
-                        onClick={toggleTheme}
-                        className="p-2.5 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-all"
-                        aria-label="Toggle Theme"
-                    >
-                        {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-                    </button>
-
-                    <button
-                        className="md:hidden p-2.5 text-zinc-500"
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    >
-                        {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                    </button>
-                </div>
-            </div>
-
-            {/* Mobile Nav */}
-            <AnimatePresence>
-                {mobileMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        className="absolute top-[calc(100%+1rem)] left-6 right-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-3xl shadow-2xl flex flex-col gap-2"
-                    >
-                        {[
-                            { name: "Explorer", href: "/list/5" },
-                            { name: "Journal", href: "/blog" },
-                            { name: "About", href: "/about-us" },
-                            { name: "Contact", href: "/contact" }
-                        ].map((l) => (
+                    {/* Links */}
+                    <div className="hidden md:flex items-center gap-10">
+                        {["Explore", "Journal", "About"].map((link) => (
                             <Link
-                                key={l.name}
-                                href={l.href}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="text-lg font-semibold p-3 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-xl transition-colors"
+                                key={link}
+                                href={link === 'Explore' ? '/list/5' : `/${link.toLowerCase()}`}
+                                className="text-xs font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-cyan-500 transition-colors"
                             >
-                                {l.name}
+                                {link}
                             </Link>
                         ))}
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    </div>
 
-            {/* Search Overlay */}
+                    {/* Actions */}
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => setIsSearchOpen(true)}
+                            className="p-3 bg-zinc-100 dark:bg-zinc-800/50 rounded-full text-zinc-500 hover:text-cyan-500 transition-all"
+                        >
+                            <Search className="w-4 h-4" />
+                        </button>
+
+                        <button
+                            onClick={toggleTheme}
+                            className="p-3 bg-zinc-100 dark:bg-zinc-800/50 rounded-full text-zinc-500 hover:text-cyan-500 transition-all"
+                        >
+                            {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+                        </button>
+
+                        <button
+                            className="md:hidden p-3 text-zinc-500"
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        >
+                            <Menu className="w-6 h-6" />
+                        </button>
+
+                        <Link
+                            href="/list/5"
+                            className="hidden sm:flex group items-center gap-3 bg-black dark:bg-white text-white dark:text-black px-8 py-3.5 rounded-full font-black text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-cyan-500/10"
+                        >
+                            SYNC ARCHIVE <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </div>
+                </div>
+            </nav>
+
+            {/* Futuristic Search Overlay */}
             <AnimatePresence>
                 {isSearchOpen && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-6 bg-white/40 dark:bg-black/40 backdrop-blur-md"
+                        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-3xl flex items-center justify-center p-6"
                     >
-                        <motion.div
-                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            className="bg-white dark:bg-zinc-900 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative border border-zinc-200 dark:border-zinc-800"
-                        >
-                            <button onClick={() => setIsSearchOpen(false)} className="absolute top-6 right-6 p-2 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-all">
-                                <X className="w-5 h-5" />
-                            </button>
-                            <h2 className="text-xl font-bold mb-6 px-2">Knowledge Base Search</h2>
-                            <form onSubmit={handleSearch}>
-                                <div className="relative">
-                                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 w-5 h-5" />
-                                    <input
-                                        autoFocus
-                                        type="text"
-                                        placeholder="Type to search..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl pl-12 pr-6 py-4 text-lg outline-none focus:ring-4 ring-indigo-500/10 transition-all font-medium"
-                                    />
+                        <button onClick={() => setIsSearchOpen(false)} className="absolute top-10 right-10 p-4 bg-white/10 rounded-full text-white hover:rotate-90 transition-all">
+                            <X className="w-8 h-8" />
+                        </button>
+
+                        <div className="w-full max-w-4xl text-center">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="mb-10 text-cyan-500 font-mono text-sm tracking-[0.5em] uppercase"
+                            >
+                                [ Initializing Linguistic Search... ]
+                            </motion.div>
+                            <form onSubmit={handleSearch} className="relative group">
+                                <input
+                                    autoFocus
+                                    type="text"
+                                    placeholder="TYPE COMMAND_WORD..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value.toUpperCase())}
+                                    className="w-full bg-transparent border-b-2 border-zinc-800 focus:border-cyan-500 py-10 text-4xl md:text-8xl font-heading font-black text-white outline-none placeholder:text-zinc-900 transition-all text-center tracking-tighter"
+                                />
+                                <div className="mt-12 flex justify-center gap-6">
+                                    <button className="nova-button text-black uppercase text-xs tracking-widest">Execute Search_</button>
                                 </div>
-                                <p className="mt-4 px-2 text-xs text-zinc-500 font-medium">Press Enter to search across all dictionaries.</p>
                             </form>
-                        </motion.div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </header>
+
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <motion.div
+                        initial={{ x: '100%' }}
+                        animate={{ x: 0 }}
+                        exit={{ x: '100%' }}
+                        className="fixed inset-0 z-[60] bg-white dark:bg-black p-10 flex flex-col justify-center gap-12"
+                    >
+                        <button onClick={() => setMobileMenuOpen(false)} className="absolute top-10 right-10"><X className="w-10 h-10" /></button>
+                        {["Explore", "Journal", "About", "Contact"].map((link) => (
+                            <Link
+                                key={link}
+                                href={link === 'Explore' ? '/list/5' : `/${link.toLowerCase()}`}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-6xl font-heading font-black tracking-tighter uppercase text-zinc-900 dark:text-white hover:text-cyan-500 transition-colors"
+                            >
+                                {link}
+                            </Link>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </>
     );
 }

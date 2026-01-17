@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, RotateCcw, LayoutGrid, List as ListIcon, SlidersHorizontal, ChevronRight, X, ArrowUpRight } from "lucide-react";
+import { Search, RotateCcw, LayoutGrid, List as ListIcon, SlidersHorizontal, ChevronRight, X, ArrowUpRight, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ListClientProps {
@@ -32,7 +32,7 @@ export default function ListClient({ length }: ListClientProps) {
             } catch (err) {
                 console.error(err);
             } finally {
-                setTimeout(() => setLoading(false), 500);
+                setTimeout(() => setLoading(false), 800);
             }
         }
         loadData();
@@ -60,70 +60,73 @@ export default function ListClient({ length }: ListClientProps) {
     }, [words, startsWith, endsWith, pattern, exclude]);
 
     return (
-        <div className="pt-32 pb-40 px-6 max-w-7xl mx-auto">
-            <div className="bg-mesh" />
+        <div className="pt-40 pb-40 px-6 max-w-[1400px] mx-auto">
 
-            {/* ZENITH HEADER */}
-            <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-20">
-                <div className="max-w-2xl">
-                    <div className="flex items-center gap-3 mb-6">
-                        <span className="w-10 h-0.5 bg-indigo-600"></span>
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600">INDEXED CORPUS L{length}</span>
+            {/* CYBER HEADER */}
+            <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-24">
+                <div className="relative">
+                    <div className="absolute -left-12 -top-12 w-64 h-64 bg-cyan-500/10 blur-[100px] pointer-events-none" />
+                    <div className="flex items-center gap-4 mb-8">
+                        <Zap className="w-5 h-5 text-cyan-500 fill-current" />
+                        <span className="font-heading font-black text-xs uppercase tracking-[0.5em] text-zinc-400">Archive Node: {length}</span>
                     </div>
-                    <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-6">
-                        Verified <span className="text-gradient">Lexis.</span>
+                    <h1 className="text-7xl md:text-[8rem] font-heading font-black tracking-tighter leading-[0.8] uppercase mb-8">
+                        UNLOCKED<span className="text-cyan-500">_</span>{length}
                     </h1>
-                    <p className="text-zinc-500 font-medium text-lg leading-relaxed">
-                        Currently display {filteredWords.length.toLocaleString()} of {words.length.toLocaleString()} architectural entries in the {length}-letter word database.
-                    </p>
+                    <div className="flex items-center gap-6">
+                        <div className="h-0.5 w-12 bg-cyan-500" />
+                        <p className="font-bold uppercase text-[10px] tracking-[0.3em] text-zinc-500">
+                            Total System Entries: {words.length.toLocaleString()}
+                        </p>
+                    </div>
                 </div>
 
-                <div className="flex items-center flex-wrap gap-4">
+                <div className="flex items-center gap-6 flex-wrap">
                     <button
                         onClick={() => setShowFilters(!showFilters)}
                         className={cn(
-                            "flex items-center gap-3 px-8 py-4.5 rounded-2xl font-bold transition-all border shadow-lg",
-                            showFilters ? "bg-indigo-600 text-white border-indigo-600 shadow-indigo-600/20" : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800"
+                            "flex items-center gap-4 px-10 py-5 rounded-full font-black text-xs uppercase tracking-[0.3em] transition-all",
+                            showFilters ? "bg-cyan-500 text-black shadow-2xl shadow-cyan-500/40" : "bg-zinc-900 text-white"
                         )}
                     >
-                        <SlidersHorizontal className="w-5 h-5" />
-                        Control Filters
+                        <SlidersHorizontal className="w-4 h-4" />
+                        System_Override
                     </button>
-                    <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                        <button onClick={() => setViewMode('grid')} className={cn("p-3.5 rounded-xl transition-all", viewMode === 'grid' ? "bg-white dark:bg-zinc-800 shadow-sm text-indigo-600" : "text-zinc-400 hover:text-zinc-600")}>
+                    <div className="flex bg-zinc-100 dark:bg-zinc-900 p-2 rounded-full border border-zinc-200 dark:border-zinc-800 shadow-xl">
+                        <button onClick={() => setViewMode('grid')} className={cn("p-4 rounded-full transition-all", viewMode === 'grid' ? "bg-white dark:bg-zinc-800 text-cyan-500 shadow-md" : "text-zinc-400")}>
                             <LayoutGrid className="w-5 h-5" />
                         </button>
-                        <button onClick={() => setViewMode('list')} className={cn("p-3.5 rounded-xl transition-all", viewMode === 'list' ? "bg-white dark:bg-zinc-800 shadow-sm text-indigo-600" : "text-zinc-400 hover:text-zinc-600")}>
+                        <button onClick={() => setViewMode('list')} className={cn("p-4 rounded-full transition-all", viewMode === 'list' ? "bg-white dark:bg-zinc-800 text-cyan-500 shadow-md" : "text-zinc-400")}>
                             <ListIcon className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
             </header>
 
-            {/* ZENITH FILTERS */}
-            <AnimatePresence mode="wait">
+            {/* CYBER FILTERS */}
+            <AnimatePresence>
                 {showFilters && (
                     <motion.div
                         initial={{ height: 0, opacity: 0, y: -20 }}
                         animate={{ height: 'auto', opacity: 1, y: 0 }}
                         exit={{ height: 0, opacity: 0, y: -20 }}
-                        className="overflow-hidden mb-20"
+                        className="overflow-hidden mb-24"
                     >
-                        <div className="stylish-card p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                        <div className="nova-card p-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 bg-zinc-50 dark:bg-zinc-900 group">
                             {[
-                                { label: "Prefix Match", val: startsWith, set: setStartsWith, placeholder: "e.g. ST" },
-                                { label: "Suffix Match", val: endsWith, set: setEndsWith, placeholder: "e.g. ED" },
-                                { label: "Pattern Lookup", val: pattern, set: setPattern, placeholder: "e.g. F__S_" },
-                                { label: "Exclusions", val: exclude, set: setExclude, placeholder: "e.g. X, Q, J" }
+                                { label: "Starts_With", val: startsWith, set: setStartsWith, placeholder: "Prefix" },
+                                { label: "Ends_With", val: endsWith, set: setEndsWith, placeholder: "Suffix" },
+                                { label: "Wildcard_Pattern", val: pattern, set: setPattern, placeholder: "Mask" },
+                                { label: "Kill_Letters", val: exclude, set: setExclude, placeholder: "Exclude" }
                             ].map((f, i) => (
-                                <div key={i} className="flex flex-col gap-4">
-                                    <label className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em] px-1">{f.label}</label>
+                                <div key={i} className="space-y-4">
+                                    <label className="text-[10px] font-black text-cyan-500 uppercase tracking-[0.3em] px-1">{f.label}</label>
                                     <input
                                         type="text"
                                         value={f.val}
                                         onChange={(e) => f.set(e.target.value.toUpperCase())}
                                         placeholder={f.placeholder}
-                                        className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-2xl px-6 py-4.5 font-semibold text-lg focus:ring-4 ring-indigo-500/5 outline-none transition-all uppercase placeholder:opacity-30"
+                                        className="w-full bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 rounded-3xl px-8 py-5 font-black text-xl focus:border-cyan-500 outline-none transition-all uppercase placeholder:opacity-20"
                                     />
                                 </div>
                             ))}
@@ -132,35 +135,34 @@ export default function ListClient({ length }: ListClientProps) {
                 )}
             </AnimatePresence>
 
-            {/* DATA VIEW */}
+            {/* DATA GRID */}
             {loading ? (
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-8">
                     {[...Array(18)].map((_, i) => (
-                        <div key={i} className="aspect-square bg-zinc-50 dark:bg-zinc-900 rounded-[2rem] animate-pulse border border-zinc-100 dark:border-zinc-800/50" />
+                        <div key={i} className="aspect-square bg-zinc-50 dark:bg-zinc-900 rounded-[3rem] animate-pulse border border-zinc-100 dark:border-zinc-800" />
                     ))}
                 </div>
             ) : filteredWords.length > 0 ? (
-                <div className={cn("gap-8", viewMode === 'grid' ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7" : "flex flex-col")}>
+                <div className={cn("gap-8", viewMode === 'grid' ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6" : "flex flex-col")}>
                     <AnimatePresence mode="popLayout">
-                        {filteredWords.slice(0, 400).map((word, idx) => (
+                        {filteredWords.slice(0, 500).map((word, idx) => (
                             <motion.div
                                 key={word}
                                 layout
-                                initial={{ opacity: 0, scale: 0.95 }}
+                                initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
                                 className={cn(
-                                    "stylish-card group relative overflow-hidden p-8 flex flex-col items-center justify-center text-center",
-                                    viewMode === 'list' && "flex-row items-center justify-between py-6 px-10 text-left"
+                                    "nova-card group p-10 flex flex-col items-center justify-center text-center",
+                                    viewMode === 'list' && "flex-row items-center justify-between py-8 px-12 text-left h-auto min-h-0"
                                 )}
                             >
-                                <div className="absolute top-4 left-4 text-[9px] font-black text-zinc-300 dark:text-zinc-700 font-mono tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">REC_{idx + 1}</div>
-                                <h3 className={cn("font-bold tracking-tight text-zinc-900 dark:text-white transition-all duration-500 group-hover:scale-110 uppercase", viewMode === 'grid' ? "text-3xl" : "text-2xl")}>
+                                <span className="absolute top-6 left-8 text-[9px] font-black text-zinc-300 dark:text-zinc-800 group-hover:text-cyan-500 transition-colors uppercase tracking-[0.2em]">{idx + 1}_SYNC</span>
+                                <h3 className={cn("font-heading font-black tracking-tighter uppercase transition-all duration-500 group-hover:scale-125 group-hover:text-cyan-500", viewMode === 'grid' ? "text-4xl lg:text-5xl" : "text-3xl")}>
                                     {word}
                                 </h3>
-                                <div className={cn("mt-6 flex gap-1 opacity-20 group-hover:opacity-100 transition-opacity", viewMode === 'list' && "mt-0 order-last")}>
+                                <div className={cn("mt-8 flex gap-1.5 opacity-10 group-hover:opacity-100 transition-all", viewMode === 'list' && "mt-0 order-last")}>
                                     {[...Array(length)].map((_, i) => (
-                                        <div key={i} className="w-1 h-1 rounded-full bg-indigo-600" />
+                                        <div key={i} className="w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_10px_rgba(0,242,255,1)]" />
                                     ))}
                                 </div>
                             </motion.div>
@@ -168,18 +170,12 @@ export default function ListClient({ length }: ListClientProps) {
                     </AnimatePresence>
                 </div>
             ) : (
-                <div className="py-48 text-center stylish-card border-dashed">
-                    <div className="w-20 h-20 bg-zinc-50 dark:bg-zinc-800/50 rounded-full flex items-center justify-center mx-auto mb-8 border border-zinc-100 dark:border-zinc-700">
-                        <Search className="w-10 h-10 text-zinc-200" />
+                <div className="py-60 text-center flex flex-col items-center">
+                    <div className="w-32 h-32 bg-zinc-100 dark:bg-zinc-900 rounded-full flex items-center justify-center mb-10 border border-zinc-200 dark:border-zinc-800">
+                        <X className="w-16 h-16 text-zinc-300" />
                     </div>
-                    <h3 className="text-3xl font-bold mb-4 tracking-tight">Access Denied: No Matches.</h3>
-                    <p className="text-zinc-500 font-medium max-w-sm mx-auto uppercase text-xs tracking-[0.2em] leading-relaxed">System failed to retrieve words based on active filter set. Reset parameters to restore index.</p>
-                </div>
-            )}
-
-            {filteredWords.length > 400 && (
-                <div className="mt-40 text-center py-24 border-t border-zinc-100 dark:border-zinc-900">
-                    <p className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-300 dark:text-zinc-700">Display Limit Reached: Manual Expansion Required</p>
+                    <h2 className="text-6xl font-heading font-black text-zinc-200 dark:text-zinc-800 uppercase tracking-tighter mb-4 animate-pulse">Null_Results</h2>
+                    <p className="text-zinc-500 font-black text-xs uppercase tracking-[0.5em]">System reset required. Modify filter criteria.</p>
                 </div>
             )}
         </div>
