@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Menu, X, Command, Sun, Moon } from "lucide-react";
+import { Search, Menu, X, Command, Sun, Moon, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,61 +33,61 @@ export default function Navbar() {
         <header
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-                isScrolled ? "glass-header py-4 shadow-sm" : "bg-transparent py-6"
+                isScrolled ? "bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 py-4 shadow-sm" : "bg-transparent py-6"
             )}
         >
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
                 {/* Brand */}
                 <Link href="/" className="flex items-center gap-2 group">
-                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
-                        <Command className="w-6 h-6" />
+                    <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:rotate-6 transition-transform">
+                        <Sparkles className="w-5 h-5 fill-current" />
                     </div>
-                    <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        5-Letter<span className="text-blue-600">Word</span>
+                    <span className="text-xl font-bold tracking-tight">
+                        5-Letter<span className="text-indigo-600">Word</span>
                     </span>
                 </Link>
 
                 {/* Main Nav */}
-                <div className="hidden md:flex items-center gap-8">
-                    {["Blog", "About", "Contact"].map((l) => (
+                <nav className="hidden md:flex items-center gap-10">
+                    {[
+                        { name: "Explorer", href: "/list/5" },
+                        { name: "Journal", href: "/blog" },
+                        { name: "About", href: "/about-us" },
+                        { name: "Contact", href: "/contact" }
+                    ].map((l) => (
                         <Link
-                            key={l}
-                            href={`/${l.toLowerCase()}`}
-                            className="text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors"
+                            key={l.name}
+                            href={l.href}
+                            className="text-sm font-medium text-zinc-500 hover:text-indigo-600 transition-colors"
                         >
-                            {l}
+                            {l.name}
                         </Link>
                     ))}
-                </div>
+                </nav>
 
                 {/* Actions */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                     <button
                         onClick={() => setIsSearchOpen(true)}
-                        className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                        className="p-2.5 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-all"
+                        aria-label="Search"
                     >
                         <Search className="w-5 h-5" />
                     </button>
 
                     <button
                         onClick={toggleTheme}
-                        className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                        className="p-2.5 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-all"
+                        aria-label="Toggle Theme"
                     >
                         {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
                     </button>
 
-                    <Link
-                        href="/list/5"
-                        className="hidden sm:flex bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md shadow-blue-500/10"
-                    >
-                        Explorer
-                    </Link>
-
                     <button
-                        className="md:hidden p-2"
+                        className="md:hidden p-2.5 text-zinc-500"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
-                        <Menu className="w-6 h-6" />
+                        {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
                 </div>
             </div>
@@ -96,60 +96,61 @@ export default function Navbar() {
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-full left-0 right-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-6 flex flex-col gap-4 shadow-xl"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="absolute top-[calc(100%+1rem)] left-6 right-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-3xl shadow-2xl flex flex-col gap-2"
                     >
-                        {["Blog", "About", "Contact", "Dictionary"].map((l) => (
+                        {[
+                            { name: "Explorer", href: "/list/5" },
+                            { name: "Journal", href: "/blog" },
+                            { name: "About", href: "/about-us" },
+                            { name: "Contact", href: "/contact" }
+                        ].map((l) => (
                             <Link
-                                key={l}
-                                href={l === 'Dictionary' ? '/list/5' : `/${l.toLowerCase()}`}
+                                key={l.name}
+                                href={l.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="text-lg font-medium p-2"
+                                className="text-lg font-semibold p-3 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-xl transition-colors"
                             >
-                                {l}
+                                {l.name}
                             </Link>
                         ))}
                     </motion.div>
                 )}
             </AnimatePresence>
 
-            {/* Simple Search Overlay */}
+            {/* Search Overlay */}
             <AnimatePresence>
                 {isSearchOpen && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-6"
+                        className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-6 bg-white/40 dark:bg-black/40 backdrop-blur-md"
                     >
                         <motion.div
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl p-8 shadow-2xl relative"
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            className="bg-white dark:bg-zinc-900 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative border border-zinc-200 dark:border-zinc-800"
                         >
-                            <button onClick={() => setIsSearchOpen(false)} className="absolute top-6 right-6 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
-                                <X className="w-6 h-6" />
+                            <button onClick={() => setIsSearchOpen(false)} className="absolute top-6 right-6 p-2 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-all">
+                                <X className="w-5 h-5" />
                             </button>
-                            <h2 className="text-2xl font-bold mb-6">Quick Search</h2>
+                            <h2 className="text-xl font-bold mb-6 px-2">Knowledge Base Search</h2>
                             <form onSubmit={handleSearch}>
                                 <div className="relative">
-                                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 w-5 h-5" />
                                     <input
                                         autoFocus
                                         type="text"
-                                        placeholder="Find words..."
+                                        placeholder="Type to search..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-6 py-4 text-lg outline-none focus:ring-2 ring-blue-500/20"
+                                        className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl pl-12 pr-6 py-4 text-lg outline-none focus:ring-4 ring-indigo-500/10 transition-all font-medium"
                                     />
                                 </div>
-                                <div className="mt-8 flex justify-end">
-                                    <button className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all">
-                                        Search Database
-                                    </button>
-                                </div>
+                                <p className="mt-4 px-2 text-xs text-zinc-500 font-medium">Press Enter to search across all dictionaries.</p>
                             </form>
                         </motion.div>
                     </motion.div>

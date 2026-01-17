@@ -1,32 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Outfit', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Geist', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #3b82f6;
-  /* Electric Blue */
-  --secondary: #8b5cf6;
-  /* Violet */
-  --accent: #10b981;
-  /* Emerald */
+  --foreground: #09090b;
+  --primary: #6366f1;
+  /* Indigo */
+  --secondary: #f43f5e;
+  /* Rose */
+  --muted: #f4f4f5;
+  --border: #e4e4e7;
   --card: #ffffff;
-  --border: #e2e8f0;
-  --glow: rgba(59, 130, 246, 0.1);
+  --ring: rgba(99, 102, 241, 0.1);
 }
 
 .dark {
-  --background: #020617;
-  --foreground: #f8fafc;
-  --primary: #60a5fa;
-  --secondary: #a78bfa;
-  --card: #0f172a;
-  --border: #1e293b;
-  --glow: rgba(96, 165, 250, 0.15);
+  --background: #09090b;
+  --foreground: #fafafa;
+  --muted: #18181b;
+  --border: #27272a;
+  --card: #09090b;
+  --ring: rgba(99, 102, 241, 0.2);
 }
 
 @layer base {
@@ -37,95 +35,58 @@
   body {
     background-color: var(--background);
     color: var(--foreground);
-    @apply transition-colors duration-500 antialiased selection:bg-blue-500 selection:text-white;
-    overflow-x: hidden;
+    @apply antialiased transition-colors duration-300;
   }
 
-  /* Custom Scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 10px;
+  * {
+    border-color: var(--border);
   }
 }
 
 @layer utilities {
-  .prism-card {
+  .stylish-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 1.25rem;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-radius: 2rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .prism-card:hover {
+  .stylish-card:hover {
     border-color: var(--primary);
-    box-shadow: 0 20px 40px -10px var(--glow);
-    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -10px var(--ring);
+    transform: translateY(-4px);
   }
 
-  .text-glow {
-    text-shadow: 0 0 20px var(--glow);
+  .glass-nav {
+    backdrop-filter: blur(12px);
+    background-color: rgba(var(--background), 0.7);
+    border-bottom: 1px solid var(--border);
   }
 
-  .glass-header {
-    backdrop-filter: blur(16px);
-    background-color: rgba(255, 255, 255, 0.7);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-rose-500;
   }
 
-  .dark .glass-header {
-    background-color: rgba(2, 6, 23, 0.7);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  .gradient-border {
-    position: relative;
-    border: 1px solid transparent;
-    background-clip: padding-box;
-  }
-
-  .gradient-border::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
+  .bg-mesh {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: -1;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    border-radius: inherit;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.05) 0px, transparent 50%);
+    pointer-events: none;
   }
 
-  /* Animated Blobs */
-  .blob {
-    position: absolute;
-    filter: blur(80px);
-    z-index: -1;
-    border-radius: 100%;
-    opacity: 0.2;
-    animation: blobify 20s infinite alternate;
-  }
-
-  @keyframes blobify {
-    0% {
-      transform: translate(0, 0) scale(1);
-    }
-
-    33% {
-      transform: translate(30px, -50px) scale(1.1);
-    }
-
-    66% {
-      transform: translate(-20px, 20px) scale(0.9);
-    }
-
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0.02;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    filter: brightness(100%) contrast(100%);
   }
 }
