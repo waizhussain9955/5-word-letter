@@ -61,12 +61,11 @@ export default function ListClient({ length }: ListClientProps) {
         return words.filter((word) => {
             const w = word.toUpperCase();
             if (startsWith && !w.startsWith(startsWith.toUpperCase())) return false;
-            if (endsWith && !w.endsWith(endsWith.toUpperCase())) return false;
+            if (endsWith && !w.endsWith(endsWith.toLowerCase().toUpperCase())) return false;
             if (pattern) {
                 const p = pattern.toUpperCase();
-                // If it's a full word match (no underscores), check equality
                 if (!p.includes("_")) {
-                    if (w !== p) return false;
+                    if (!w.includes(p)) return false;
                 } else {
                     const regexStr = `^${p.replace(/_/g, '.')}$`;
                     try {
@@ -99,20 +98,14 @@ export default function ListClient({ length }: ListClientProps) {
     return (
         <div className="pt-32 pb-40 px-6 max-w-7xl mx-auto min-h-screen">
 
-            <motion.header
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-16"
-            >
+            <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-12">
                 <div>
                     <div className="flex items-center gap-3 mb-4">
-                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
-                            <Zap className="w-4 h-4 fill-current" />
-                        </div>
+                        <Zap className="w-5 h-5 text-blue-600 fill-current" />
                         <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Archive Index L{length}</span>
                     </div>
                     <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 dark:text-white uppercase mb-4">
-                        The <span className="text-blue-600">Lexis.</span>
+                        The <span className="text-blue-600">Archive.</span>
                     </h1>
                     <p className="font-bold text-slate-500 uppercase text-[10px] tracking-[0.2em]">
                         Total matches: {filteredWords.length.toLocaleString()} | Page {currentPage} of {totalPages || 1}
@@ -123,17 +116,17 @@ export default function ListClient({ length }: ListClientProps) {
                     <button
                         onClick={() => setShowFilters(!showFilters)}
                         className={cn(
-                            "flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-xl",
-                            showFilters ? "bg-blue-600 text-white shadow-blue-500/20" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+                            "flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all",
+                            showFilters ? "bg-blue-600 text-white shadow-xl shadow-blue-600/20" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white shadow-sm"
                         )}
                     >
                         <Filter className="w-4 h-4" />
-                        {showFilters ? "Hide Controls" : "Filter Controls"}
+                        {showFilters ? "Close Filters" : "Open Filters"}
                     </button>
                 </div>
-            </motion.header>
+            </header>
 
-            {/* Redesigned Clean Filter UI */}
+            {/* HIGH CONTRAST FILTERS */}
             <AnimatePresence>
                 {showFilters && (
                     <motion.div
@@ -142,14 +135,14 @@ export default function ListClient({ length }: ListClientProps) {
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden mb-12"
                     >
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8 bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-200 dark:border-slate-800">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8 bg-slate-100 dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800">
                             {[
                                 { label: "Starts With", val: startsWith, set: setStartsWith, ph: "e.g. A" },
                                 { label: "Ends With", val: endsWith, set: setEndsWith, ph: "e.g. Z" },
                                 { label: "Pattern (_)", val: pattern, set: setPattern, ph: "e.g. F__S_" },
-                                { label: "Exclude", val: exclude, set: setExclude, ph: "e.g. X, Q, J" }
+                                { label: "Exclude", val: exclude, set: setExclude, ph: "e.g. X, Q" }
                             ].map((f, i) => (
-                                <div key={i} className="flex flex-col gap-3">
+                                <div key={i} className="flex flex-col gap-2">
                                     <label className="text-[10px] font-black text-blue-600 uppercase tracking-widest px-1">{f.label}</label>
                                     <div className="relative">
                                         <input
@@ -157,7 +150,7 @@ export default function ListClient({ length }: ListClientProps) {
                                             value={f.val}
                                             onChange={(e) => f.set(e.target.value)}
                                             placeholder={f.ph}
-                                            className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 font-bold text-slate-900 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all uppercase"
+                                            className="w-full bg-white dark:bg-black border-2 border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 font-bold text-slate-900 dark:text-white focus:border-blue-600 outline-none transition-all uppercase placeholder:text-slate-300 dark:placeholder:text-slate-700"
                                         />
                                         {f.val && (
                                             <button onClick={() => f.set("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-500">
@@ -172,12 +165,12 @@ export default function ListClient({ length }: ListClientProps) {
                 )}
             </AnimatePresence>
 
-            {/* Word Grid - Simple Sample Style */}
+            {/* WORD GRID - HIGH VISIBILITY */}
             <div className="min-h-[500px]">
                 {loading ? (
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         {[...Array(20)].map((_, i) => (
-                            <div key={i} className="h-20 bg-slate-100 dark:bg-slate-900 rounded-xl animate-pulse" />
+                            <div key={i} className="h-20 bg-slate-200 dark:bg-slate-900 rounded-xl animate-pulse" />
                         ))}
                     </div>
                 ) : currentWords.length > 0 ? (
@@ -187,9 +180,9 @@ export default function ListClient({ length }: ListClientProps) {
                                 key={word}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="h-20 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex items-center justify-center group hover:border-blue-600 transition-all duration-300 active:scale-95"
+                                className="h-20 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex items-center justify-center group hover:border-blue-600 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-all duration-300"
                             >
-                                <span className="text-2xl font-bold text-slate-700 dark:text-slate-200 uppercase tracking-tight group-hover:text-blue-600 transition-all">
+                                <span className="text-2xl font-bold text-slate-700 dark:text-slate-200 uppercase tracking-tight group-hover:text-blue-600 group-hover:scale-110 transition-all">
                                     {word}
                                 </span>
                             </motion.div>
@@ -197,25 +190,23 @@ export default function ListClient({ length }: ListClientProps) {
                     </div>
                 ) : (
                     <div className="py-40 text-center flex flex-col items-center">
-                        <div className="w-20 h-20 bg-slate-50 dark:bg-slate-900 rounded-full flex items-center justify-center mb-6 text-slate-300">
-                            <Search className="w-10 h-10" />
-                        </div>
-                        <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Null Match.</h3>
-                        <p className="text-slate-500 font-bold uppercase text-xs tracking-widest mt-2">Adjust system filters to find results</p>
+                        <Search className="w-12 h-12 text-slate-300 mb-4" />
+                        <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">No Matches Found_</h3>
+                        <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-2">Try adjusting your filters</p>
                     </div>
                 )}
             </div>
 
-            {/* Professional Pagination */}
+            {/* HIGH CONTRAST PAGINATION */}
             {totalPages > 1 && (
-                <div className="mt-20 flex flex-col items-center gap-8">
-                    <div className="flex items-center gap-2">
+                <div className="mt-20 flex flex-col items-center gap-6">
+                    <div className="flex items-center gap-3">
                         <button
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                             disabled={currentPage === 1}
-                            className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl disabled:opacity-20 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm"
+                            className="p-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-2xl disabled:opacity-20 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
                         >
-                            <ChevronLeft className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                            <ChevronLeft className="w-5 h-5" />
                         </button>
 
                         <div className="flex items-center gap-2">
@@ -224,10 +215,10 @@ export default function ListClient({ length }: ListClientProps) {
                                     key={n}
                                     onClick={() => setCurrentPage(n)}
                                     className={cn(
-                                        "w-12 h-12 rounded-2xl font-black text-sm transition-all border",
+                                        "w-12 h-12 rounded-2xl font-black text-sm transition-all border-2",
                                         currentPage === n
-                                            ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-500/20"
-                                            : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 hover:border-blue-600"
+                                            ? "bg-blue-600 border-blue-600 text-white shadow-xl shadow-blue-600/20"
+                                            : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-400 hover:border-blue-600 hover:text-blue-600"
                                     )}
                                 >
                                     {n}
@@ -238,14 +229,13 @@ export default function ListClient({ length }: ListClientProps) {
                         <button
                             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                             disabled={currentPage === totalPages}
-                            className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl disabled:opacity-20 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm"
+                            className="p-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-2xl disabled:opacity-20 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
                         >
-                            <ChevronRight className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                            <ChevronRight className="w-5 h-5" />
                         </button>
                     </div>
-
                     <div className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">
-                        Matrix Sync Complete_
+                        Archive Navigation System_
                     </div>
                 </div>
             )}

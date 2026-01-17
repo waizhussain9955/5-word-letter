@@ -6,39 +6,46 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #2563eb;
+  --background: #f1f5f9;
+  /* Soft Slate background to make white cards pop */
+  --foreground: #020617;
+  --primary: #2d5cf7;
+  /* High-vibrancy Blue matching user's LAB intent */
   --secondary: #64748b;
-  --muted: #f1f5f9;
-  --border: #e2e8f0;
+  --muted: #e2e8f0;
+  --border: #cbd5e1;
   --card: #ffffff;
 }
 
 .dark {
-  --background: #0f172a;
+  --background: #020617;
   --foreground: #f8fafc;
-  --muted: #1e293b;
-  --border: #334155;
-  --card: #1e293b;
+  --muted: #0f172a;
+  --border: #1e293b;
+  --card: #0f172a;
 }
 
 @layer base {
   body {
     background-color: var(--background);
     color: var(--foreground);
-    @apply antialiased transition-colors duration-200;
+    @apply antialiased transition-colors duration-300;
   }
 }
 
 @layer utilities {
-  .card-shadow {
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  }
-
   .dictionary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* High contrast border for light theme visibility */
+  .vibrant-border {
+    @apply border-2 border-slate-200 dark:border-slate-800 focus:border-blue-600 dark:focus:border-blue-500;
+  }
+
+  .text-highlight {
+    color: var(--primary);
   }
 }
