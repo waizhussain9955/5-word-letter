@@ -69,7 +69,7 @@ export default function Home() {
               <span className="text-2xl font-black italic">{s.len}</span>
             </div>
 
-            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2 relative z-10">{s.label}</h3>
+            <h3 className="text-2xl font-black text-slate-900 dark:text-slate-300 mb-2 relative z-10">{s.label}</h3>
             <p className="text-[10px] text-slate-500 font-bold mb-10 relative z-10 uppercase tracking-widest leading-none">{s.items}</p>
 
             <div className="text-blue-600 font-black text-xs uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all relative z-10">
@@ -90,7 +90,7 @@ export default function Home() {
             <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center text-blue-600 mb-8 border-2 border-blue-100 dark:border-blue-800 shadow-sm">
               <f.icon className="w-8 h-8" />
             </div>
-            <h4 className="text-xl font-black mb-4 text-slate-900 dark:text-white">{f.title}</h4>
+            <h4 className="text-xl font-black mb-4 text-slate-900 dark:text-slate-300">{f.title}</h4>
             <p className="text-slate-600 dark:text-slate-400 font-bold leading-relaxed">{f.desc}</p>
           </div>
         ))}

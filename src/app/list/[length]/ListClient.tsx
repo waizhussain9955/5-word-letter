@@ -117,7 +117,7 @@ export default function ListClient({ length }: ListClientProps) {
                         onClick={() => setShowFilters(!showFilters)}
                         className={cn(
                             "flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all",
-                            showFilters ? "bg-blue-600 text-white shadow-xl shadow-blue-600/20" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white shadow-sm"
+                            showFilters ? "bg-blue-600 text-white shadow-xl shadow-blue-600/20" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-300 shadow-sm"
                         )}
                     >
                         <Filter className="w-4 h-4" />
@@ -150,7 +150,7 @@ export default function ListClient({ length }: ListClientProps) {
                                             value={f.val}
                                             onChange={(e) => f.set(e.target.value)}
                                             placeholder={f.ph}
-                                            className="w-full bg-white dark:bg-black border-2 border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 font-bold text-slate-900 dark:text-white focus:border-blue-600 outline-none transition-all uppercase placeholder:text-slate-300 dark:placeholder:text-slate-700"
+                                            className="w-full bg-white dark:bg-black border-2 border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 font-bold text-slate-900 dark:text-slate-300 focus:border-blue-600 outline-none transition-all uppercase placeholder:text-slate-300 dark:placeholder:text-slate-700"
                                         />
                                         {f.val && (
                                             <button onClick={() => f.set("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-500">
@@ -191,7 +191,7 @@ export default function ListClient({ length }: ListClientProps) {
                 ) : (
                     <div className="py-40 text-center flex flex-col items-center">
                         <Search className="w-12 h-12 text-slate-300 mb-4" />
-                        <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">No Matches Found_</h3>
+                        <h3 className="text-2xl font-black text-slate-900 dark:text-slate-300 uppercase tracking-tighter">No Matches Found_</h3>
                         <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-2">Try adjusting your filters</p>
                     </div>
                 )}

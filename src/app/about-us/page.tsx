@@ -51,7 +51,7 @@ export default function AboutPage() {
                                     <item.icon className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <h3 className="font-black text-slate-900 dark:text-white uppercase text-xs tracking-widest mb-1">{item.title}</h3>
+                                    <h3 className="font-black text-slate-900 dark:text-slate-300 uppercase text-xs tracking-widest mb-1">{item.title}</h3>
                                     <p className="text-sm text-slate-500 font-bold uppercase text-[10px] tracking-tighter">{item.desc}</p>
                                 </div>
                             </div>
