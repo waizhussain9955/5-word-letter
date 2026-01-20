@@ -31,7 +31,7 @@ export default function Home() {
 
         <h1 className="text-6xl md:text-8xl font-black text-slate-500 dark:text-slate-400 mb-8 tracking-tighter leading-[0.9]">
           <span className="text-blue-600">Discover</span> the <br />
-          <span className="text-violet-600">Perfect Word.</span>
+          <span className="">Perfect Word.</span>
         </h1>
 
         <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto mb-12 font-bold leading-relaxed">
