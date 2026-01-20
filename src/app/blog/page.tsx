@@ -50,7 +50,7 @@ export default function BlogPage() {
                         <Sparkles className="w-4 h-4 fill-current" />
                         <span>LINGUISTIC INTELLIGENCE</span>
                     </motion.div>
-                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-slate-900 dark:text-white mb-8 uppercase leading-[0.8]">
+                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-slate-500 dark:text-slate-400 mb-8 uppercase leading-[0.8]">
                         The <span className="text-blue-600">Journal.</span>
                     </h1>
                     <p className="text-xl md:text-2xl text-slate-500 font-bold max-w-2xl uppercase text-[10px] tracking-[0.4em]">

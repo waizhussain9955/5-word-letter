@@ -29,7 +29,7 @@ export default function Home() {
           <span>THE MODERN DICTIONARY HUB</span>
         </motion.div>
 
-        <h1 className="text-6xl md:text-8xl font-black text-slate-900 dark:text-white mb-8 tracking-tighter leading-[0.9]">
+        <h1 className="text-6xl md:text-8xl font-black text-slate-500 dark:text-slate-400 mb-8 tracking-tighter leading-[0.9]">
           <span className="text-blue-600">Discover</span> the <br />
           <span className="text-violet-600">Perfect Word.</span>
         </h1>

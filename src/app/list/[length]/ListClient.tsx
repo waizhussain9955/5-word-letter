@@ -104,7 +104,7 @@ export default function ListClient({ length }: ListClientProps) {
                         <Zap className="w-5 h-5 text-blue-600 fill-current" />
                         <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Archive Index L{length}</span>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 dark:text-white uppercase mb-4">
+                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-500 dark:text-slate-400 uppercase mb-4">
                         The <span className="text-blue-600">Archive.</span>
                     </h1>
                     <p className="font-bold text-slate-500 uppercase text-[10px] tracking-[0.2em]">

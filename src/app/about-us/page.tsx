@@ -16,7 +16,7 @@ export default function AboutPage() {
                         <Sparkles className="w-4 h-4 fill-current" />
                         <span>ESTABLISHED 2026</span>
                     </motion.div>
-                    <h1 className="text-5xl md:text-8xl font-black mb-10 text-slate-900 dark:text-white leading-[0.9] tracking-tighter uppercase">
+                    <h1 className="text-5xl md:text-8xl font-black mb-10 text-slate-500 dark:text-slate-400 leading-[0.9] tracking-tighter uppercase">
                         Mastering the <br />
                         <span className="text-blue-600">English Atlas.</span>
                     </h1>
